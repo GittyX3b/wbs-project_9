@@ -46,7 +46,7 @@
     "prebuild": "rm -rf dist",
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "node --env-file=.env dist/app.js"
+    "start": "node dist/app.js"
   },
   "keywords": [],
   "author": "",
