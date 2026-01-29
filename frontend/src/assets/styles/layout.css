@@ -1,0 +1,7 @@
+body {
+  @apply bg-slate-300;
+}
+
+.root-container {
+  @apply m-auto min-h-screen max-w-[1600px] bg-white shadow-lg;
+}

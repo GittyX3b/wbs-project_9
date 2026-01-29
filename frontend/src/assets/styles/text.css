@@ -1,15 +1,41 @@
+@font-face {
+  font-family: 'KodeMono';
+  src: url(@assets/fonts/KodeMono-VariableFont_wght.ttf) format('truetype');
+  font-weight: 100 900;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url(@assets/fonts/Inter-VariableFont.ttf) format('truetype');
+  font-weight: 100 900;
+}
+
+@theme {
+  --font-A: 'KodeMono', ui-sans-serif, system-ui, 'Arial', sans-serif;
+  --font-B: 'Inter', ui-sans-serif, system-ui, 'Roboto', sans-serif;
+}
+
+/* Global settings */
+html {
+  @apply text-[16px] text-slate-700;
+}
+
 body {
-  @apply text-black;
+  @apply font-B text-base antialiased;
 }
 
 h1 {
-  @apply py-8 text-[2.2rem];
+  @apply text-mt-color-2 font-A pt-8 pb-4 text-[2.5rem] leading-tight font-bold;
 }
 
 h2 {
-  @apply py-6 text-[1.5rem];
+  @apply text-mt-color-2 font-A pt-6 pb-3 text-[2rem] leading-snug font-bold;
 }
 
 h3 {
-  @apply py-4 text-[1.2rem];
+  @apply text-mt-color-2 font-A pt-4 pb-2 text-[1.5rem] leading-snug font-semibold;
+}
+
+h4 {
+  @apply font-A pt-4 pb-2 text-[1.25rem] leading-normal font-semibold;
 }

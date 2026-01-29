@@ -13,18 +13,6 @@
   logs: true;
 }
 
-@import '@assets/styles/fonts.css';
+@import '@assets/styles/color.css';
+@import '@assets/styles/layout.css';
 @import '@assets/styles/text.css';
-
-/* Adding root custom styles => check @assets/styles for more */
-@theme {
-  /* fonts */
-  --font-somename: 'somename', monospace;
-
-  /* colors */
-  --color-somecolor: #f5f7fa;
-}
-
-.app-maxwidth {
-  @apply max-w-[1600px];
-}

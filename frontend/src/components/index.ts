@@ -1,1 +1,2 @@
-console.log('@components/index.ts is healthy...');
+export { NavBar } from './NavBar';
+export { Footer } from './Footer';

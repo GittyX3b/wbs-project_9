@@ -1,1 +1,1 @@
-console.log('@layouts/index.ts is healthy...');
+export { MainLayout } from './MainLayout';

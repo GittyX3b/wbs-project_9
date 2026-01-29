@@ -1,1 +1,1 @@
-console.log('@elements/index.ts is healthy...');
+export * from './Logo.tsx';

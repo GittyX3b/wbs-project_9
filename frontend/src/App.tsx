@@ -1,15 +1,20 @@
+import { Route, Routes } from 'react-router-dom';
+
 import '@components';
 import '@elements';
-import '@layouts';
-import '@pages';
+import { MainLayout } from '@layouts';
+import { Home } from '@pages';
 
 import './main.css';
 
 function App() {
   return (
     <>
-      <title>app.jsx</title>
-      <div>start here...</div>
+      <Routes>
+        <Route path='/' element={<MainLayout />}>
+          <Route index element={<Home />} />
+        </Route>
+      </Routes>
     </>
   );
 }
