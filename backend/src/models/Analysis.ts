@@ -1,5 +1,4 @@
 import { model, Schema } from 'mongoose';
-import { minLength } from 'zod';
 
 const analysisSchema = new Schema(
   {
