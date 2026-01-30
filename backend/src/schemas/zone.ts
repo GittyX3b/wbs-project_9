@@ -1,7 +1,7 @@
 import { z } from 'zod/v4';
 import { Types } from 'mongoose';
 
-export const analysisInputSchema = z.strictObject({
+export const zoneInputSchema = z.strictObject({
   bbox: z
     .array(z.number({ error: 'Bounding box must contain only numbers' }))
     .length(4, { message: 'Bounding box must have exactly 4 numbers' }),
@@ -21,9 +21,9 @@ export const analysisInputSchema = z.strictObject({
   aiText: z.string({ error: 'AI text must be a string' }).optional()
 });
 
-export const analysisSchema = z.strictObject({
+export const zoneSchema = z.strictObject({
   _id: z.instanceof(Types.ObjectId),
-  ...analysisInputSchema.shape,
+  ...zoneInputSchema.shape,
   createdAt: z.date(),
   updatedAt: z.date(),
   __v: z.number()

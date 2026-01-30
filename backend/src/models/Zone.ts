@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
 
-const analysisSchema = new Schema(
+const zoneSchema = new Schema(
   {
     bbox: {
       type: [Number],
@@ -54,4 +54,4 @@ const analysisSchema = new Schema(
   }
 );
 
-export default model('Analysis', analysisSchema);
+export default model('Zone', zoneSchema);

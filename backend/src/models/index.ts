@@ -1,1 +1,1 @@
-export { default as Analysis } from './Analysis.ts';
+export { default as Zone } from './Zone.ts';
