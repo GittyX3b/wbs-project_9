@@ -25,17 +25,17 @@ body {
 }
 
 h1 {
-  @apply text-mt-color-3 font-A pt-8 pb-4 text-3xl leading-tight font-bold;
+  @apply text-mt-color-3 font-A pt-10 pb-5 text-3xl leading-tight font-bold;
 }
 
 h2 {
-  @apply text-mt-color-3 font-A pt-6 pb-3 text-2xl leading-snug font-bold;
+  @apply text-mt-color-3 font-A pt-8 pb-4 text-2xl leading-snug font-bold;
 }
 
 h3 {
-  @apply text-mt-color-3 font-A pt-4 pb-2 text-xl leading-snug font-semibold;
+  @apply text-mt-color-3 font-A pt-6 pb-3 text-xl leading-snug font-semibold;
 }
 
 h4 {
-  @apply font-A pt-4 pb-3 text-lg leading-normal font-semibold;
+  @apply font-A pt-4 pb-2 text-lg leading-normal font-semibold;
 }

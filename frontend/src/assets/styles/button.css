@@ -1,5 +1,5 @@
 .btn {
-  @apply font-A rounded-xl text-white italic;
+  @apply font-A rounded-xl text-white italic opacity-90;
 }
 
 .btn-primary {

@@ -1,3 +1,11 @@
 .index-container {
   @apply bg-white;
 }
+
+.location-form-grid {
+  @apply grid grid-cols-[1fr_] gap-2;
+
+  input {
+    @apply w-full font-medium opacity-80;
+  }
+}
