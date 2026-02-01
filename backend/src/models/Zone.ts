@@ -20,17 +20,19 @@ const zoneSchema = new Schema(
         required: [true, 'lon is required']
       }
     },
-    metrics: {
-      populationDensity: {
+    stats: {
+      buildingCount: {
+        type: Number,
+        min: [0, 'buildingCount cannot be negative']
+      },
+      parkCount: {
+        type: Number,
+        min: [0, 'parkCount cannot be negative']
+      },
+      avgElevation: {
         type: Number
       },
-      greenSpace: {
-        type: Number
-      },
-      elevation: {
-        type: Number
-      },
-      temperature: {
+      avgTemperature: {
         type: Number
       },
       precipitation: {
