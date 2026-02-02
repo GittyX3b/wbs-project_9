@@ -13,11 +13,15 @@ const zoneSchema = new Schema(
     coordinates: {
       lat: {
         type: Number,
-        required: [true, 'lat is required']
+        required: [true, 'lat is required'],
+        min: [-90, 'lat must be >= -90'],
+        max: [90, 'lat must be <= 90']
       },
       lon: {
         type: Number,
-        required: [true, 'lon is required']
+        required: [true, 'lon is required'],
+        min: [-180, 'lon must be >= -180'],
+        max: [180, 'lon must be <= 180']
       }
     },
     stats: {
