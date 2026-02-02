@@ -5,3 +5,7 @@
 .btn-primary {
   @apply bg-mt-color-3;
 }
+
+.btn-mapfilter {
+  @apply btn btn-soft btn-info btn-xs;
+}

@@ -7,7 +7,7 @@ export const MainLayout = () => {
     <div className='flex min-h-screen flex-col justify-between'>
       <NavBar className='h-14 px-3'></NavBar>
       <Outlet></Outlet>
-      <Footer className='h-20 bg-green-200'></Footer>
+      <Footer className='h-20'></Footer>
     </div>
   );
 };

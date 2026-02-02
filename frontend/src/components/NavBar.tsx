@@ -4,7 +4,7 @@ import { App_Icon } from '@elements';
 
 export const NavBar = ({ className = '' }: { className?: string }) => {
   return (
-    <header className={`navbar bg-mt-color-1 fixed z-100 shadow-md ${className}`}>
+    <header className={`navbar bg-mt-color-1 fixed z-2000 shadow-md ${className}`}>
       <div className='navbar-start h-full'>
         <Link to='/' className='h-[90%]'>
           <App_Icon />

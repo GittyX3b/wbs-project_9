@@ -1,6 +1,7 @@
-import { GoLocation, GoSearch } from 'react-icons/go';
+import { GoLocation, GoSearch, GoSun } from 'react-icons/go';
 
 import { App_Logo } from '@/components/elements';
+import { LeafletMap } from '@components';
 
 export const Home = () => {
   return (
@@ -26,7 +27,7 @@ export const Home = () => {
         </div>
 
         {/* FORM SECTION ============== */}
-        <div id='Location-Form' className='bg-mt-color-1 flex flex-col justify-center p-10'>
+        <div id='Location-Form' className='bg-mt-color-1 flex flex-col justify-center p-5 pb-20'>
           <h2>Zielort eingeben:</h2>
           <form className='location-form-grid'>
             <input type='text' className='input' placeholder='Strasse' />
@@ -44,6 +45,59 @@ export const Home = () => {
               Suchen
             </button>
           </form>
+        </div>
+
+        {/* MAP SECTION ============== */}
+        <div id='Map-Section' className='h-full'>
+          <div className='px-5 pt-15 pb-5'>
+            <h2>Ergebnisse:</h2>
+          </div>
+          <div id='Leaflet-Container' className='h-full'>
+            <LeafletMap className='h-200'></LeafletMap>
+          </div>
+        </div>
+
+        {/* RESULTS SECTION ============== */}
+        <div id='Results' className='grid grid-rows-[min-content_min-content_1fr] gap-10 p-5 pb-15'>
+          <div id='Weather' className='grid grid-cols-[33%_1fr] gap-5'>
+            <div>
+              <b>Aktuelles Wetter:</b>
+            </div>
+            <div className='flex justify-between'>
+              <span id='Weather-Icon' className='text-2xl text-yellow-500'>
+                <GoSun />
+              </span>
+              <span id='Temperature'>12°C</span>
+              <span id='Wind-Description'>windy</span>
+            </div>
+          </div>
+          <div id='Geo-Info' className='grid grid-cols-[33%_1fr] gap-5'>
+            <div>
+              <b>Geografische Informationen:</b>
+            </div>
+            <div className='flex items-center justify-between'>
+              <span id='Geo-Info-1'>84m üNN</span>
+              <span id='Geo-Info-2'>something else</span>
+            </div>
+          </div>
+          <div id='AI-Text' className='grid grid-cols-[1fr] gap-5'>
+            <div>
+              <b>Umgebung:</b>
+            </div>
+            <div className='text-justify'>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Delectus aliquid excepturi
+              maxime eligendi ullam repellendus, dolorem explicabo blanditiis laboriosam molestias
+              assumenda alias, illum expedita, quibusdam doloremque consectetur? Accusamus
+              voluptatem quia, laboriosam illum quisquam, commodi voluptate reiciendis, aliquam
+              laudantium officia quas dolores dicta eveniet eius sunt! Nobis delectus ipsa, debitis
+              porro asperiores tenetur perspiciatis architecto nulla ut quaerat ratione quo atque,
+              excepturi fugiat hic unde, dolore ducimus esse quae. Repellendus atque veritatis hic,
+              necessitatibus totam quidem labore provident, animi suscipit quam quis sint sunt
+              reiciendis corporis fugiat facilis tempore earum non ad beatae mollitia rem. Minima
+              molestiae doloribus aliquam provident soluta!
+              <span id='Geo-Info-2'>something else</span>
+            </div>
+          </div>
         </div>
       </main>
     </>
