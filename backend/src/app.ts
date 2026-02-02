@@ -3,7 +3,6 @@ import express from 'express';
 import '#db';
 import { CLIENT_BASE_URL } from '#config';
 import { analysisRoutes, featuresRoutes, questionRouter } from '#routes';
-import {Question} from '#models';
 
 const app = express();
 const port = process.env.PORT || 8000;

@@ -1,5 +1,4 @@
 import { Router } from 'express';
-
 import { 
   createQuestion,
   getAllQuestions, 
@@ -7,12 +6,17 @@ import {
   deleteQuestion
   } from '#controllers';
 
+  import { validateQuestionZod } from '#middlewares';
+  import { questionInputSchema } from '#schemas';
+
 const questionRouter = Router();
 
-questionRouter.get('/', getAllQuestions)
+questionRouter.route('/')
+.get(getAllQuestions)
+.post(validateQuestionZod(questionInputSchema), createQuestion);
 //validateZod(Schema)
-questionRouter.post('/', createQuestion);
-questionRouter.get('/:id', getQuestionById);
-questionRouter.delete('/:id', deleteQuestion);
+questionRouter.route('/:id')
+.get(getQuestionById)
+.delete(deleteQuestion);
 
 export default questionRouter;

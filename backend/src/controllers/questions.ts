@@ -1,32 +1,26 @@
 import { type RequestHandler } from "express";
 import { Question } from "#models";
+import { z } from "zod/v4";
+import type { questionInputSchema, questionSchema } from "#schemas";
 
-// import type { userInputSchema, userSchema } from "#schemas";
-// import { z } from "zod/v4";
-// type UserInputDTO = z.infer<typeof userInputSchema>;
-// type UserDTO = z.infer<typeof userSchema>;
+//create a type from our schema
+//Data Transfer Object (DTO)
+type QuestionInputDTO = z.infer<typeof questionInputSchema>;
+type QuestionDTO = z.infer<typeof questionSchema>;
 
-
-export const getAllQuestions: RequestHandler<{}
-//, UserDTO[]
-> = async (req, res) => {
+	
+//RequestHandler<Params, ResBody, ReqBody, ReqQuery>
+export const getAllQuestions: RequestHandler<{}, QuestionDTO[]> = async (req, res) => {
   const qustions = await Question.find();
   res.json(qustions);
 };
 
-export const createQuestion: RequestHandler<{}
-//, UserDTO, UserInputDTO
-> = async (
-  req,
-  res
-) => {
+export const createQuestion: RequestHandler<{}, QuestionDTO, QuestionInputDTO> = async (req,res) => {
   const question = await Question.create(req.body);
-  res.json(question);
+  res.status(201).json(question);
 };
 
-export const getQuestionById: RequestHandler<{ id: string }
-// , UserDTO
-> = async (req,res) => {
+export const getQuestionById: RequestHandler<{ id: string }, QuestionDTO> = async (req,res) => {
   const {params: { id }} = req;
   const question = await Question.findById(id);
   if (!question) throw new Error("Question not found", { cause: 404 });
@@ -36,6 +30,6 @@ export const getQuestionById: RequestHandler<{ id: string }
 export const deleteQuestion: RequestHandler<{ id: string }> = async (req, res) => {
   const {params: { id },} = req;
   const question = await Question.findByIdAndDelete(id);
-  if (!question) throw new Error("User not found", { cause: 404 });
+  if (!question) throw new Error("Question not found", { cause: 404 });
   res.status(204).send();
 };
