@@ -2,7 +2,8 @@ import cors from 'cors';
 import express from 'express';
 import '#db';
 import { CLIENT_BASE_URL } from '#config';
-import { analysisRoutes, featuresRoutes } from '#routes';
+import { analysisRoutes, featuresRoutes, questionRouter } from '#routes';
+import {Question} from '#models';
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -12,6 +13,10 @@ app.use(express.json());
 
 app.use('/features', featuresRoutes);
 app.use('/analysis', analysisRoutes);
+
+
+app.use('/question', questionRouter)
+
 
 
 app.get('/', (req, res) => res.send('RestAPI is running'));
