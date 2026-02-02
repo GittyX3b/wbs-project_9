@@ -1,18 +1,8 @@
 @import 'tailwindcss';
-@plugin 'daisyui' {
-  themes:
-    light,
-    dark --prefersdark,
-    dracula,
-    nord,
-    wireframe --default;
-  root: ':root';
-  include:;
-  exclude:;
-  prefix:;
-  logs: true;
-}
+@plugin 'daisyui';
 
 @import '@assets/styles/color.css';
 @import '@assets/styles/layout.css';
 @import '@assets/styles/text.css';
+@import '@assets/styles/button.css';
+@import '@assets/styles/images.css';

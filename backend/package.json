@@ -39,6 +39,10 @@
     "#utils": {
       "development": "./src/utils/index.ts",
       "default": "./dist/utils/index.js"
+    },
+    "#services": {
+      "development": "./src/services/index.ts",
+      "default": "./dist/services/index.js"
     }
   },
   "scripts": {
@@ -58,6 +62,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@turf/turf": "^7.3.3",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "mongoose": "^9.1.5",

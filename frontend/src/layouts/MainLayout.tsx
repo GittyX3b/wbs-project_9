@@ -4,10 +4,10 @@ import { Footer, NavBar } from '@components';
 
 export const MainLayout = () => {
   return (
-    <div className='grid min-h-screen grid-rows-[auto_1fr_auto]'>
+    <div className='relative flex min-h-screen w-full flex-col justify-between'>
       <NavBar className='h-14 px-3'></NavBar>
       <Outlet></Outlet>
-      <Footer className='bg-green-200'></Footer>
+      <Footer className='h-20'></Footer>
     </div>
   );
 };

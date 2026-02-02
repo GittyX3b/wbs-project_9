@@ -1,0 +1,11 @@
+.btn {
+  @apply font-A rounded-sm text-white italic opacity-90;
+}
+
+.btn-primary {
+  @apply bg-mt-color-3 lg:btn-lg;
+}
+
+.btn-mapfilter {
+  @apply btn btn-xs lg:btn-md bg-mt-color-10 hover:bg-mt-color-11 border-0 text-black hover:text-white;
+}

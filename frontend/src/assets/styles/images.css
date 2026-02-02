@@ -1,0 +1,11 @@
+body {
+  @apply bg-[url('../src/assets/images/maptold-page-background.jpg')] bg-fixed bg-repeat;
+}
+
+.hero-bg-image {
+  @apply bg-[url('../src/assets/images/maptold-hero-mobile.jpg')] bg-cover bg-center md:bg-[url('../src/assets/images/maptold-hero.jpg')];
+}
+
+.form-beside-image {
+  @apply bg-[url('../src/assets/images/maptold-location-form-aside.jpg')] bg-contain bg-size-[80%] bg-center bg-no-repeat;
+}

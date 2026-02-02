@@ -9,14 +9,14 @@ import {
   import { validateQuestionZod } from '#middlewares';
   import { questionInputSchema } from '#schemas';
 
-const questionRouter = Router();
+const questionRoutes = Router();
 
-questionRouter.route('/')
+questionRoutes.route('/')
 .get(getAllQuestions)
 .post(validateQuestionZod(questionInputSchema), createQuestion);
 //validateZod(Schema)
-questionRouter.route('/:id')
+questionRoutes.route('/:id')
 .get(getQuestionById)
 .delete(deleteQuestion);
 
-export default questionRouter;
+export default questionRoutes;

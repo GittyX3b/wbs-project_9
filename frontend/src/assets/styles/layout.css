@@ -1,7 +1,11 @@
-body {
-  @apply bg-slate-300;
+.app-container {
+  @apply border-mt-color-4 m-auto max-w-[1600px] border-x-1 bg-white shadow-xl;
 }
 
-.root-container {
-  @apply m-auto min-h-screen max-w-[1600px] bg-white shadow-lg;
+.location-form-grid {
+  @apply m-auto grid gap-2 lg:w-xl;
+
+  input {
+    @apply w-full bg-white font-medium opacity-80;
+  }
 }
