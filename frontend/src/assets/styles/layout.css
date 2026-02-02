@@ -1,5 +1,9 @@
+html {
+  scroll-behavior: smooth;
+}
+
 .app-container {
-  @apply border-mt-color-4 m-auto max-w-[1600px] border-x-1 bg-white shadow-xl;
+  @apply border-mt-color-4 m-auto max-w-[1600px] border-x bg-white shadow-xl;
 }
 
 .location-form-grid {

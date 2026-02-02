@@ -1,12 +1,28 @@
 @theme {
+  /* purple */
   --color-mt-color-1: #f3edf7;
   --color-mt-color-2: #816eb3;
   --color-mt-color-3: #50087d;
   --color-mt-color-4: #e9def8;
   --color-mt-color-5: #fefefe;
 
+  /* mint */
   --color-mt-color-10: #83d5b5;
   --color-mt-color-11: #40b386;
+  --color-mt-color-12: #50e9ae;
+  --color-mt-color-13: #d3f0e3;
+
+  /* yellow */
+  --color-mt-color-20: #eeefd4;
+  --color-mt-color-21: #f3e462;
+
+  /* pink */
+  --color-mt-color-30: #eac9d7;
+  --color-mt-color-31: #ed64b6;
+
+  /* blue */
+  --color-mt-color-40: #ebeaf9;
+  --color-mt-color-41: #4c82da;
 }
 
 /* Global settings */

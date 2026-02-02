@@ -7,5 +7,15 @@ body {
 }
 
 .form-beside-image {
-  @apply bg-[url('../src/assets/images/maptold-location-form-aside.jpg')] bg-contain bg-size-[80%] bg-center bg-no-repeat;
+  @apply bg-[url('../src/assets/images/maptold-location-form-aside.jpg')] bg-size-[80%] bg-center bg-no-repeat;
+}
+
+.narrative-image-1 {
+  @apply bg-[url('../src/assets/images/maptold-narrative-1.jpg')] bg-size-[60%] bg-center bg-no-repeat lg:bg-size-[40%];
+}
+.narrative-image-2 {
+  @apply bg-[url('../src/assets/images/maptold-narrative-2.jpg')] bg-size-[60%] bg-center bg-no-repeat lg:bg-size-[40%];
+}
+.narrative-image-3 {
+  @apply bg-[url('../src/assets/images/maptold-narrative-3.jpg')] bg-size-[60%] bg-center bg-no-repeat lg:bg-size-[40%];
 }
