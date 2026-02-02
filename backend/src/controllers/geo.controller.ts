@@ -1,8 +1,9 @@
 import { fetchOsmData } from '#services';
-import type { ZoneInputDTO, GeoFeatureCollections, GeoResponseDTO } from '#types';
+import type { ZoneInputDTO, GeoFeature, GeoFeatureCollections, GeoResponseDTO } from '#types';
 import { type RequestHandler } from 'express';
 import { getBBox } from '#utils';
 import { Zone } from '#models';
+import type { any } from 'zod';
 /**
  * Controller to get geographical data for a specified zone.
  * @param req - Express request object containing ZoneInputDTO in the body.
@@ -36,6 +37,7 @@ export const getGeoData: RequestHandler<{}, GeoResponseDTO, ZoneInputDTO> = asyn
     await zone.save();
 
     res.json({
+      zoneId: zone._id,
       layers: {
         buildings,
         roads,
@@ -62,25 +64,39 @@ function getLayers(osmData: any): {
 } {
   // Filter and transform OSM data into GeoJSON feature collections
   const features = osmData.elements.filter((el: any) => el.type === 'way' && el.geometry);
+  const layers = {
+    buildings: { type: 'FeatureCollection', features: [] as any },
+    roads: { type: 'FeatureCollection', features: [] as any },
+    greenAreas: { type: 'FeatureCollection', features: [] as any }
+  };
 
-  // Separate features into buildings, roads, and green areas
-  const buildings = features
-    .filter((el: any) => el.tags && el.tags.building)
-    .map((b: any) => ({ type: 'Feature', geometry: b.geometry, properties: b.tags }));
-  const roads = features
-    .filter((el: any) => el.tags && el.tags.highway)
-    .map((r: any) => ({ type: 'Feature', geometry: r.geometry, properties: r.tags }));
-  const greenAreas = features
-    .filter((el: any) => el.tags && el.tags.leisure === 'park')
-    .map((g: any) => ({ type: 'Feature', geometry: g.geometry, properties: g.tags }));
+  features.forEach((f: any) => {
+    const isBuilding = f.tags && f.tags.building;
+    const isPark = f.tags && f.tags.leisure === 'park';
+
+    const geometryType = isBuilding || isPark ? 'Polygon' : 'LineString';
+
+    const newFeature: GeoFeature = {
+      type: 'Feature',
+      geometry: { type: geometryType, coordinates: f.geometry.map((point: any) => [point.lon, point.lat]) },
+      properties: f.tags || {}
+    };
+
+    if (isBuilding) {
+      layers.buildings.features.push(newFeature);
+    } else if (isPark) {
+      layers.greenAreas.features.push(newFeature);
+    } else {
+      layers.roads.features.push(newFeature);
+    }
+    return layers;
+  });
+
+  const { buildings, roads, greenAreas } = layers;
 
   return {
-    buildings: {
-      features: buildings
-    },
-    roads: { features: roads },
-    greenAreas: {
-      features: greenAreas
-    }
+    buildings,
+    roads,
+    greenAreas
   };
 }
