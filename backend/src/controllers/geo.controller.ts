@@ -34,14 +34,13 @@ export const getGeoData: RequestHandler<{}, GeoResponseDTO, ZoneInputDTO> = asyn
     // Save zone data if it doesn't exist
     let zone = zoneExists;
     if (!zone) {
-      //AI text generation can be integrated here
-
       zone = new Zone();
       zone.bbox = bbox;
       zone.coordinates = { lat: latFixed, lon: lonFixed };
       zone.stats = {
         buildingCount: buildings.features.length,
         parkCount: greenAreas.features.length,
+        roadCount: roads.features.length,
         avgElevation: elevationAvg
       };
       zone.aiText = 'Sample AI-generated text about the area.';
