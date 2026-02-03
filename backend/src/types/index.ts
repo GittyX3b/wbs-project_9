@@ -32,3 +32,13 @@ export type GeoResponseDTO = {
   };
   aiText: string;
 };
+
+export type Opentopodata = {
+  results: {
+    elevation: number;
+    location: {
+      lat: number;
+      lng: number;
+    };
+  }[];
+};

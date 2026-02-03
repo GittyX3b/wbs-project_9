@@ -1,9 +1,9 @@
-import { fetchOsmData } from '#services';
+import { fetchOsmData, fetchElevation } from '#services';
 import type { ZoneInputDTO, GeoFeature, GeoFeatureCollections, GeoResponseDTO } from '#types';
 import { type RequestHandler } from 'express';
 import { getBBox } from '#utils';
 import { Zone } from '#models';
-import type { any } from 'zod';
+
 /**
  * Controller to get geographical data for a specified zone.
  * @param req - Express request object containing ZoneInputDTO in the body.
@@ -17,12 +17,11 @@ export const getGeoData: RequestHandler<{}, GeoResponseDTO, ZoneInputDTO> = asyn
   console.log('Calculated BBox:', bbox);
 
   try {
-    // Fetch OSM data and process it to extract relevant layers.
-    const osmData = await fetchOsmData(bbox);
-    const { buildings, roads, greenAreas } = getLayers(osmData);
+    // Fetch OSM data and elevation parallelly
+    const [osmData, elevationAvg] = await Promise.all([fetchOsmData(bbox), fetchElevation(lat, lon)]);
 
-    //Fetch elevation data
-    //Fetch weather data
+    //Extract layers from OSM data
+    const { buildings, roads, greenAreas } = getLayers(osmData);
 
     //Save zone data to the database
     const zone = new Zone();
@@ -43,7 +42,7 @@ export const getGeoData: RequestHandler<{}, GeoResponseDTO, ZoneInputDTO> = asyn
         roads,
         greenAreas
       },
-      elevation: { avg: 34.5 }, // Mocked elevation data
+      elevation: { avg: elevationAvg },
       weather: { temperature: 22 }, // Mocked weather data
       aiText: 'Sample AI-generated text about the area.' // Mocked AI text
     });
