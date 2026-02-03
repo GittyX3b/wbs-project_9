@@ -10,6 +10,7 @@ export function getBBox(lat: number, lon: number, radiusInKm: number): number[] 
 
   // Get the bounding box of the buffered area
   const box = bbox(zone.geometry); // [minLon, minLat, maxLon, maxLat]
+  const rawBBox = [box[1], box[0], box[3], box[2]];
 
-  return [box[1], box[0], box[3], box[2]]; // [minLat, minLon, maxLat, maxLon] (south, west, north, east)
+  return rawBBox.map(coord => Math.round(coord * 10000) / 10000); // Round to 4 decimal places
 }

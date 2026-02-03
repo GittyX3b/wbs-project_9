@@ -12,28 +12,42 @@ import { Zone } from '#models';
 export const getGeoData: RequestHandler<{}, GeoResponseDTO, ZoneInputDTO> = async (req, res) => {
   const { lat, lon } = req.body.coordinates;
 
-  const bbox = getBBox(lat, lon, 0.5); // 0.5 km radius for 1 km diameter
+  //Fix lat/lon to 4 decimal places to standardize zone coordinates
+  const latFixed = Math.round(lat * 10000) / 10000;
+  const lonFixed = Math.round(lon * 10000) / 10000;
+
+  const bbox = getBBox(latFixed, lonFixed, 0.5); // 0.5 km radius for 1 km diameter
 
   console.log('Calculated BBox:', bbox);
 
   try {
-    // Fetch OSM data and elevation parallelly
-    const [osmData, elevationAvg] = await Promise.all([fetchOsmData(bbox), fetchElevation(lat, lon)]);
+    //Fetch OSM data, elevation, and check for existing zone in parallel
+    const [osmData, elevationAvg, zoneExists] = await Promise.all([
+      fetchOsmData(bbox),
+      fetchElevation(latFixed, lonFixed),
+      await Zone.findOne({ coordinates: { lat: latFixed, lon: lonFixed } })
+    ]);
 
     //Extract layers from OSM data
     const { buildings, roads, greenAreas } = getLayers(osmData);
 
-    //Save zone data to the database
-    const zone = new Zone();
-    zone.bbox = bbox;
-    zone.coordinates = { lat, lon };
-    zone.stats = {
-      buildingCount: buildings.features.length,
-      parkCount: greenAreas.features.length
-    };
-    zone.aiText = 'Sample AI-generated text about the area.';
+    // Save zone data if it doesn't exist
+    let zone = zoneExists;
+    if (!zone) {
+      //AI text generation can be integrated here
 
-    await zone.save();
+      zone = new Zone();
+      zone.bbox = bbox;
+      zone.coordinates = { lat: latFixed, lon: lonFixed };
+      zone.stats = {
+        buildingCount: buildings.features.length,
+        parkCount: greenAreas.features.length,
+        avgElevation: elevationAvg
+      };
+      zone.aiText = 'Sample AI-generated text about the area.';
+
+      await zone.save();
+    }
 
     res.json({
       zoneId: zone._id,
