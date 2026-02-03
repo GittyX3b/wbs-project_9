@@ -33,6 +33,15 @@ export type GeoResponseDTO = {
   aiText: string;
 };
 
+export type Osm = {
+  elements: {
+    type: 'way' | 'node' | 'relation';
+    id: number;
+    tags?: Record<string, string>;
+    geometry?: { lat: number; lon: number }[];
+  }[];
+};
+
 export type Opentopodata = {
   results: {
     elevation: number;

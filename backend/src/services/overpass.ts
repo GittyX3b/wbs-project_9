@@ -1,5 +1,7 @@
+import type { Osm } from '#types';
+
 /* Fetch OSM data from Overpass API based on a bounding box */
-export async function fetchOsmData(bbox: number[]): Promise<any> {
+export async function fetchOsmData(bbox: number[]): Promise<Osm> {
   const body = `
           [out:json][timeout:25];
               (
@@ -19,5 +21,5 @@ export async function fetchOsmData(bbox: number[]): Promise<any> {
     throw new Error(`Overpass API request failed with status ${response.status}`);
   }
 
-  return await response.json();
+  return (await response.json()) as Osm;
 }
