@@ -30,14 +30,11 @@
     "paths": {
       "@/*": ["src/*"],
       "@assets/*": ["src/assets/*"],
+      "@utils": ["src/utils/index.ts"],
       "@elements": ["src/components/elements/index.ts"],
-      "@elements/*": ["src/components/elements/*"],
       "@components": ["src/components/index.ts"],
-      "@components/*": ["src/components/*"],
       "@layouts": ["src/layouts/index.ts"],
-      "@layouts/*": ["src/layouts/*"],
       "@pages": ["src/pages/index.ts"],
-      "@pages/*": ["src/pages/*"],
       "@public/*": ["public/*"]
     }
   },

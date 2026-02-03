@@ -1,3 +1,5 @@
-export { NavBar } from './NavBar';
-export { LeafletMap } from './LeafletMap';
 export { Footer } from './Footer';
+export { Hero } from './Hero.tsx';
+export { LeafletMap } from './LeafletMap';
+export { Narratives } from './Narratives';
+export { NavBar } from './NavBar';

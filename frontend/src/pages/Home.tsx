@@ -1,7 +1,6 @@
-import { GoLocation, GoSearch, GoSun } from 'react-icons/go';
+import { GoSearch, GoSun } from 'react-icons/go';
 
-import { App_Logo } from '@/components/elements';
-import { LeafletMap } from '@components';
+import { Hero, LeafletMap, Narratives } from '@components';
 
 export const Home = () => {
   return (
@@ -9,22 +8,7 @@ export const Home = () => {
       <title>MapTold - Home</title>
       <main className=''>
         {/* HERO SECTION ============== */}
-        <div id='Hero' className='hero hero-bg-image h-screen'>
-          <div className='hero-content h-full pb-20 text-center lg:mb-40 lg:h-[80%]'>
-            <div className='flex h-[85%] max-w-md flex-col items-center justify-between lg:h-full lg:max-w-xl'>
-              <App_Logo className='w-[40%]'></App_Logo>
-              <h1 className='px-6 font-bold'>Dein virtueller Aussichtsturm</h1>
-              <p className='px-10 py-8 italic'>
-                Gib einen geografischen Punkt an und erhalte relevante Informationen zu seiner
-                Umgebung, serviert von unserer Standort-KI.
-              </p>
-              <a href='#Location-Form' className='btn btn-primary w-70 lg:w-fit'>
-                <GoLocation />
-                Zielort eingeben
-              </a>
-            </div>
-          </div>
-        </div>
+        <Hero></Hero>
 
         {/* FORM SECTION =============== */}
         <div id='Location-Form' className='bg-mt-color-4 flex flex-col justify-center lg:flex-row'>
@@ -49,39 +33,9 @@ export const Home = () => {
             </button>
           </form>
         </div>
+
         {/* NARRATIVE SECTION ========== */}
-        <div id='Narratives' className='h-200 md:h-280 lg:h-350'>
-          <div id='Narrative-1' className='grid h-1/3 grid-cols-2'>
-            <div className='bg-mt-color-20 flex items-center justify-center p-5 text-center'>
-              <h3>
-                Finde kurzfristig<br></br> interresante Orte
-              </h3>
-            </div>
-            <div className='bg-mt-color-5'>
-              <div className='narrative-image-1 h-full'></div>
-            </div>
-          </div>
-          <div id='Narrative-2' className='grid h-1/3 grid-cols-2'>
-            <div className='bg-mt-color-5'>
-              <div className='narrative-image-2 h-full w-full'></div>
-            </div>
-            <div className='bg-mt-color-13 flex items-center justify-center p-5 text-center'>
-              <h3>
-                Plane gemeinsame <br></br> Abenteuer
-              </h3>
-            </div>
-          </div>
-          <div id='Narrative-3' className='grid h-1/3 grid-cols-2'>
-            <div className='bg-mt-color-30 flex items-center justify-center p-5 text-center'>
-              <h3>
-                Checke eine neue<br></br> Wohngegend
-              </h3>
-            </div>
-            <div className='bg-mt-color-5'>
-              <div className='narrative-image-3 h-full w-full'></div>
-            </div>
-          </div>
-        </div>
+        <Narratives visible={true}></Narratives>
 
         {/* RESPONSE SECTION =========== */}
         <div id='Response' className='hidden'>
