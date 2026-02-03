@@ -5,7 +5,7 @@ import { scrollToElementID } from '@utils';
 
 export const Hero = () => {
   return (
-    <div id='Hero' className='hero hero-bg-image h-screen'>
+    <div id='Hero' className='hero hero-bg-image h-fit min-h-screen pb-15'>
       <div className='hero-content h-full pb-20 text-center lg:mb-40 lg:h-[80%]'>
         <div className='flex h-[85%] max-w-md flex-col items-center justify-between lg:h-full lg:max-w-xl'>
           <App_Logo className='w-[40%]'></App_Logo>
