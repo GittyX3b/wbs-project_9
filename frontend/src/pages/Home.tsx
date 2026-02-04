@@ -1,4 +1,4 @@
-import { GoSun } from 'react-icons/go';
+import { LuSun } from 'react-icons/lu';
 
 import { Hero, LeafletMap, LocationForm, Narratives } from '@components';
 
@@ -34,7 +34,7 @@ export const Home = () => {
               </div>
               <div className='flex justify-between'>
                 <span id='Weather-Icon' className='text-2xl text-yellow-500'>
-                  <GoSun />
+                  <LuSun />
                 </span>
                 <span id='Temperature'>12°C</span>
                 <span id='Wind-Description'>windy</span>

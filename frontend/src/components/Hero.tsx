@@ -1,4 +1,4 @@
-import { GoLocation } from 'react-icons/go';
+import { LuMapPin } from 'react-icons/lu';
 
 import { App_Logo } from '@/components/elements';
 import { scrollToElementID } from '@utils';
@@ -16,9 +16,9 @@ export const Hero = () => {
           </p>
           <button
             onClick={() => scrollToElementID('Location-Form')}
-            className='btn btn-primary w-70 lg:w-fit'
+            className='btn btn-primary w-70 text-white lg:w-fit'
           >
-            <GoLocation />
+            <LuMapPin />
             Zielort eingeben
           </button>
         </div>

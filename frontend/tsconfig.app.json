@@ -30,6 +30,8 @@
     "paths": {
       "@/*": ["src/*"],
       "@assets/*": ["src/assets/*"],
+      "@data": ["src/data/index.ts"],
+      "@types": ["src/types/index.ts"],
       "@utils": ["src/utils/index.ts"],
       "@elements": ["src/components/elements/index.ts"],
       "@components": ["src/components/index.ts"],

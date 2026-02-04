@@ -1,9 +1,13 @@
 .btn {
-  @apply font-A rounded-sm text-white italic opacity-90;
+  @apply font-A italic;
 }
 
 .btn-primary {
   @apply bg-mt-color-3 lg:btn-lg;
+}
+
+.btn-location-form-control {
+  @apply btn-ghost rounded-none hover:bg-white;
 }
 
 .btn-mapfilter {
