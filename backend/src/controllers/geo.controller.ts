@@ -1,5 +1,5 @@
 import { fetchOsmData, fetchElevation } from '#services';
-import type { ZoneInputDTO, GeoFeature, GeoFeatureCollections, GeoResponseDTO } from '#types';
+import type { ZoneInputDTO, GeoFeature, GeoResponseDTO, OsmElements, OsmElement } from '#types';
 import { type RequestHandler } from 'express';
 import { getBBox } from '#utils';
 import { Zone } from '#models';
@@ -21,18 +21,20 @@ export const getGeoData: RequestHandler<{}, GeoResponseDTO, ZoneInputDTO> = asyn
   console.log('Calculated BBox:', bbox);
 
   try {
-    //Fetch OSM data, elevation, and check for existing zone in parallel
-    const [osmData, elevationAvg, zoneExists] = await Promise.all([
-      fetchOsmData(bbox),
-      fetchElevation(latFixed, lonFixed),
-      await Zone.findOne({ coordinates: { lat: latFixed, lon: lonFixed } })
-    ]);
+    const existingZone = await Zone.findOne({ coordinates: { lat: latFixed, lon: lonFixed } });
+
+    const osmPromise = fetchOsmData(bbox);
+    const elevationPromise = existingZone
+      ? Promise.resolve(existingZone.stats?.avgElevation ?? 0)
+      : fetchElevation(latFixed, lonFixed);
+
+    const [osmData, elevationAvg] = await Promise.all([osmPromise, elevationPromise]);
 
     //Extract layers from OSM data
     const { buildings, roads, greenAreas } = getLayers(osmData);
 
     // Save zone data if it doesn't exist
-    let zone = zoneExists;
+    let zone = existingZone;
     if (!zone) {
       zone = new Zone();
       zone.bbox = bbox;
@@ -61,25 +63,20 @@ export const getGeoData: RequestHandler<{}, GeoResponseDTO, ZoneInputDTO> = asyn
     });
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(error.message, { cause: { status: 500 } });
-    } else {
-      throw new Error('Unknown error occurred while fetching geographical data.');
+      throw new Error(error.message, { cause: { status: 504 } });
     }
+    throw new Error('Unknown error occurred while fetching geographical data.');
   }
 };
 
 /** Extract layers from OSM data in GEOJson format */
-function getLayers(osmData: any): {
-  buildings: GeoFeatureCollections;
-  roads: GeoFeatureCollections;
-  greenAreas: GeoFeatureCollections;
-} {
+function getLayers(osmData: OsmElements) {
   // Filter and transform OSM data into GeoJSON feature collections
-  const features = osmData.elements.filter((el: any) => el.type === 'way' && el.geometry);
+  const features = osmData.elements.filter((el: OsmElement) => el.type === 'way' && el.geometry);
   const layers = {
-    buildings: { type: 'FeatureCollection', features: [] as any },
-    roads: { type: 'FeatureCollection', features: [] as any },
-    greenAreas: { type: 'FeatureCollection', features: [] as any }
+    buildings: { type: 'FeatureCollection', features: [] as GeoFeature[] },
+    roads: { type: 'FeatureCollection', features: [] as GeoFeature[] },
+    greenAreas: { type: 'FeatureCollection', features: [] as GeoFeature[] }
   };
 
   features.forEach((f: any) => {
@@ -88,7 +85,7 @@ function getLayers(osmData: any): {
 
     const geometryType = isBuilding || isPark ? 'Polygon' : 'LineString';
 
-    const newFeature: GeoFeature = {
+    const newFeature = {
       type: 'Feature',
       geometry: { type: geometryType, coordinates: f.geometry.map((point: any) => [point.lon, point.lat]) },
       properties: f.tags || {}
