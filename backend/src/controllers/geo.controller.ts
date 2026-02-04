@@ -63,10 +63,9 @@ export const getGeoData: RequestHandler<{}, GeoResponseDTO, ZoneInputDTO> = asyn
     });
   } catch (error: unknown) {
     if (error instanceof Error) {
-      throw new Error(error.message, { cause: { status: 500 } });
-    } else {
-      throw new Error('Unknown error occurred while fetching geographical data.');
+      throw new Error(error.message, { cause: { status: 504 } });
     }
+    throw new Error('Unknown error occurred while fetching geographical data.');
   }
 };
 

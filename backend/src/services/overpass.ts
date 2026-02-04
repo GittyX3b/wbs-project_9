@@ -18,7 +18,7 @@ export async function fetchOsmData(bbox: number[]): Promise<OsmElements> {
   });
 
   if (!response.ok) {
-    throw new Error(`Overpass API request failed with status ${response.status}`);
+    throw new Error(`Overpass API request failed`);
   }
 
   return (await response.json()) as OsmElements;
