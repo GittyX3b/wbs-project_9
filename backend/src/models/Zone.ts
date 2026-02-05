@@ -33,6 +33,10 @@ const zoneSchema = new Schema(
         type: Number,
         min: [0, 'parkCount cannot be negative']
       },
+      roadCount: {
+        type: Number,
+        min: [0, 'roadCount cannot be negative']
+      },
       avgElevation: {
         type: Number
       }

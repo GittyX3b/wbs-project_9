@@ -29,7 +29,7 @@ h1 {
 }
 
 h2 {
-  @apply text-mt-color-3 font-A pt-8 pb-4 text-2xl leading-snug font-bold sm:text-3xl md:text-4xl lg:text-5xl;
+  @apply text-mt-color-3 font-A pt-8 pb-4 text-2xl leading-snug font-bold sm:text-3xl md:text-4xl xl:text-5xl;
 }
 
 h3 {

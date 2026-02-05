@@ -1,53 +1,21 @@
 import { z } from 'zod/v4';
-import type { zoneInputSchema } from '#schemas';
-import { Types } from 'mongoose';
+import type {
+  zoneInputSchema,
+  geoResponseSchema,
+  geoFeatureSchema,
+  osmElementsSchema,
+  opentopodataSchema,
+  osmElementSchema
+} from '#schemas';
 
 export type ZoneInputDTO = z.infer<typeof zoneInputSchema>;
 
-export type GeoFeature = {
-  type: 'Feature';
-  geometry: {
-    type: 'Polygon' | 'LineString';
-    coordinates: [number, number][];
-  };
-  properties: Record<string, any>;
-};
+export type GeoFeature = z.infer<typeof geoFeatureSchema>;
 
-export type GeoFeatureCollections = {
-  features: GeoFeature[];
-};
+export type GeoResponseDTO = z.infer<typeof geoResponseSchema>;
 
-export type GeoResponseDTO = {
-  zoneId: Types.ObjectId;
-  layers: {
-    buildings: GeoFeatureCollections;
-    roads: GeoFeatureCollections;
-    greenAreas: GeoFeatureCollections;
-  };
-  elevation: {
-    avg: number;
-  };
-  weather: {
-    temperature: number;
-  };
-  aiText: string;
-};
+export type OsmElement = z.infer<typeof osmElementSchema>;
 
-export type Osm = {
-  elements: {
-    type: 'way' | 'node' | 'relation';
-    id: number;
-    tags?: Record<string, string>;
-    geometry?: { lat: number; lon: number }[];
-  }[];
-};
+export type OsmElements = z.infer<typeof osmElementsSchema>;
 
-export type Opentopodata = {
-  results: {
-    elevation: number;
-    location: {
-      lat: number;
-      lng: number;
-    };
-  }[];
-};
+export type Opentopodata = z.infer<typeof opentopodataSchema>;

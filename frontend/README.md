@@ -9,7 +9,7 @@ Deployment: [https://map-told.onrender.com/](https://map-told.onrender.com/)
 
 ### Plugins and Tools:
 
-[GitHub OctIcons](https://react-icons.github.io/react-icons/icons/go/)
+[Lucide Icons](https://react-icons.github.io/react-icons/icons/lu/)
 
 [Leaflet React](https://react-leaflet.js.org/)
 

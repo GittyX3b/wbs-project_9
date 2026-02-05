@@ -1,15 +1,8 @@
 html {
   scroll-behavior: smooth;
+  @apply select-none;
 }
 
 .app-container {
   @apply border-mt-color-4 m-auto max-w-[1600px] border-x bg-white shadow-xl;
-}
-
-.location-form-grid {
-  @apply m-auto grid gap-2 lg:w-xl;
-
-  input {
-    @apply w-full bg-white font-medium opacity-80;
-  }
 }
