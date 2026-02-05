@@ -6,14 +6,14 @@ export async function fetchOsmData(bbox: number[]): Promise<OsmElements> {
   const body = `
           [out:json][timeout:25];
             (
-              way["building"][building!=garage][building!=shed][building!=annex](${bboxStr});
-              way["highway"][highway!=path][highway!=footway][highway!=cycleway][highway!=track][highway!=steps](${bboxStr});
+              way["building"]["building"!~"^(garage|shed|annex)$"](${bboxStr});
+              way["highway"]["highway"!~"^(path|footway|cycleway|track|steps)$"](${bboxStr});
               way["leisure"="park"](${bboxStr});
               way["landuse"="forest"](${bboxStr});
-              way["waterway"="river"](${bboxStr});
-              way["waterway"="stream"](${bboxStr});
+              way["waterway"~"^(river|stream)$"](${bboxStr});
               way["natural"="water"](${bboxStr});
             );
+            
           out geom qt;`;
 
   const response = await fetch(process.env.OVERPASS_API_URL!, {
