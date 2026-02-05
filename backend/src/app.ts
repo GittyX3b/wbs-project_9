@@ -13,15 +13,10 @@ app.use(express.json());
 
 app.get('/', (req, res) => res.send('Map-Told API is running!'));
 
-// app.get('/open', async (req, res) => {
-//   const response = await openMeteo(51.52, 7.4529996, 'Europe/Berlin');
-//   res.json(response);
-// });
-
 app.use('/geo', geoRoutes);
 app.use('/question', questionRoutes);
-app.use('/*splat', notFoundHandler);
 
+app.use('/*splat', notFoundHandler);
 app.use(errorHandler);
 
 app.listen(port, () => {
