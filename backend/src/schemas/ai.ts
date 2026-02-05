@@ -2,9 +2,9 @@ import { z } from 'zod';
 
 export const promptBodySchema = z.object({
   buildingCount: z.number(),
-  greenAreas: z.number(),
+  greenCount: z.number(),
   roadCount: z.number(),
-  water: z.number(),
+  waterCount: z.number(),
   elevation: z.number()
 });
 

@@ -29,15 +29,19 @@ const zoneSchema = new Schema(
         type: Number,
         min: [0, 'buildingCount cannot be negative']
       },
-      parkCount: {
+      greenAreaCount: {
         type: Number,
-        min: [0, 'parkCount cannot be negative']
+        min: [0, 'greenAreaCount cannot be negative']
       },
       roadCount: {
         type: Number,
         min: [0, 'roadCount cannot be negative']
       },
-      avgElevation: {
+      waterCount: {
+        type: Number,
+        min: [0, 'waterCount cannot be negative']
+      },
+      elevation: {
         type: Number
       }
     },

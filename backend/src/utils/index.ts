@@ -21,7 +21,7 @@ export function getLayers(osmData: OsmElements) {
   const layers = {
     buildings: { type: 'FeatureCollection', features: [] as GeoFeature[] },
     roads: { type: 'FeatureCollection', features: [] as GeoFeature[] },
-    greenAreas: { type: 'FeatureCollection', features: [] as GeoFeature[] },
+    green: { type: 'FeatureCollection', features: [] as GeoFeature[] },
     water: { type: 'FeatureCollection', features: [] as GeoFeature[] }
   };
 
@@ -63,7 +63,7 @@ export function getLayers(osmData: OsmElements) {
     };
 
     if (isBuilding) layers.buildings.features.push(feature);
-    else if (isGreenArea) layers.greenAreas.features.push(feature);
+    else if (isGreenArea) layers.green.features.push(feature);
     else if (isRoad) layers.roads.features.push(feature);
     else if (isRiver || isLake) layers.water.features.push(feature);
   });

@@ -19,7 +19,7 @@ export const geoResponseSchema = z.object({
   layers: {
     buildings: geoFeatureCollectionsSchema,
     roads: geoFeatureCollectionsSchema,
-    greenAreas: geoFeatureCollectionsSchema,
+    green: geoFeatureCollectionsSchema,
     water: geoFeatureCollectionsSchema
   },
   elevation: z.number().nullable(),
