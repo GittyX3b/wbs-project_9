@@ -69,7 +69,7 @@ export const getGeoData: RequestHandler<{}, GeoResponseDTO, ZoneInputDTO> = asyn
         max_temp_next7days: weatherData.daily.temperature_2m_max,
         min_temp_next7days: weatherData.daily.temperature_2m_min,
         sunshine_next7days: weatherData.daily.sunshine_duration
-      }, // Mocked weather data
+      },
       aiText: zone.aiText ?? null
     });
   } catch (error: unknown) {
