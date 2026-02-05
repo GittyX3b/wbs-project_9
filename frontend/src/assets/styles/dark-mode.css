@@ -1,0 +1,11 @@
+input {
+  @apply dark:bg-white disabled:dark:border-green-300 disabled:dark:text-green-700 disabled:dark:placeholder-zinc-300;
+}
+
+.btn-location-form-control {
+  @apply dark:hover:text-zinc-500;
+
+  &.bg-green-100 {
+    @apply cursor-auto text-zinc-300;
+  }
+}

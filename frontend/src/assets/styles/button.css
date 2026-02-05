@@ -7,7 +7,14 @@
 }
 
 .btn-location-form-control {
-  @apply btn-ghost rounded-none hover:bg-white;
+  @apply btn-ghost rounded-none border-0 hover:bg-white hover:shadow-none;
+
+  &.bg-purple-100:hover {
+    @apply cursor-auto hover:bg-purple-100 hover:text-zinc-800;
+  }
+  &.bg-yellow-100:hover {
+    @apply cursor-auto hover:bg-yellow-100 hover:text-zinc-800;
+  }
 }
 
 .btn-mapfilter {
