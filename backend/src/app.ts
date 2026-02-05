@@ -14,15 +14,9 @@ app.use(express.json());
 app.get('/', (req, res) => res.send('Map-Told API is running!'));
 
 app.use('/geo', geoRoutes);
-app.use('/question', questionRoutes)
+app.use('/question', questionRoutes);
+
 app.use('/*splat', notFoundHandler);
-
-
-app.get('/', (req, res) => res.send('RestAPI is running'));
-
-app.use('/*splat', (_req, res) => {
-  res.status(404).json({ error: 'Not found' });
-});
 app.use(errorHandler);
 
 app.listen(port, () => {
