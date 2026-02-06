@@ -29,7 +29,7 @@ const zoneSchema = new Schema(
         type: Number,
         min: [0, 'buildingCount cannot be negative']
       },
-      greenAreaCount: {
+      greenCount: {
         type: Number,
         min: [0, 'greenAreaCount cannot be negative']
       },
