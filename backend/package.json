@@ -63,12 +63,13 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@google/genai": "^1.40.0",
     "@turf/turf": "^7.3.3",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "mongoose": "^9.1.5",
-    "openmeteo": "^1.2.3",
     "openai": "^6.17.0",
+    "openmeteo": "^1.2.3",
     "zod": "^4.3.6"
   }
 }
