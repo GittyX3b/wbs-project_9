@@ -1,7 +1,7 @@
 import { fetchOsmData, fetchElevation, generateAiText, openMeteo } from '#services';
 import type { ZoneInputDTO, GeoResponseDTO } from '#types';
 import { type RequestHandler } from 'express';
-import { getBBox, getLayers } from '#utils';
+import { calculateZoneStats, getBBox, getLayers } from '#utils';
 import { Zone } from '#models';
 
 /**
@@ -13,12 +13,11 @@ export const getGeoData: RequestHandler<{}, GeoResponseDTO, ZoneInputDTO> = asyn
   const { lat, lon } = req.body.coordinates;
 
   //Fix lat/lon to 4 decimal places to standardize zone coordinates
-  const latFixed = Math.round(lat * 10000) / 10000;
-  const lonFixed = Math.round(lon * 10000) / 10000;
+  const precision = 10000;
+  const latFixed = Math.round(lat * precision) / precision;
+  const lonFixed = Math.round(lon * precision) / precision;
 
-  const bbox = getBBox(latFixed, lonFixed, 0.5); // 0.5 km radius for 1 km diameter
-
-  console.log('Calculated BBox:', bbox);
+  const bbox = getBBox(latFixed, lonFixed, 1); // 1km radius around the point
 
   try {
     const existingZone = await Zone.findOne({ coordinates: { lat: latFixed, lon: lonFixed } });
@@ -38,25 +37,22 @@ export const getGeoData: RequestHandler<{}, GeoResponseDTO, ZoneInputDTO> = asyn
     let zone = existingZone;
     if (!zone) {
       const coordinates = { lat: latFixed, lon: lonFixed };
-      const stats = {
-        buildingCount: buildings.features.length,
-        greenCount: green.features.length,
-        roadCount: roads.features.length,
-        waterCount: water.features.length,
-        elevation: elevation
-      };
-      const aiText = await generateAiText(stats);
-      zone = await Zone.create({ bbox, coordinates, stats, aiText });
+
+      const stats = calculateZoneStats({ buildings, roads, green, water }, bbox);
+
+      const aiText = await generateAiText({
+        ...stats,
+        elevation,
+        temperature: weatherData.current.temperature_2m,
+        humidity: weatherData.current.relative_humidity_2m
+      });
+
+      zone = await Zone.create({ bbox, coordinates, stats: { ...stats, elevation }, aiText: aiText });
     }
 
     res.json({
       zoneId: zone._id,
-      layers: {
-        buildings,
-        roads,
-        green,
-        water
-      },
+      layers: { buildings, roads, green, water },
       elevation: elevation,
       weather: {
         time: weatherData.current.time,
@@ -76,6 +72,6 @@ export const getGeoData: RequestHandler<{}, GeoResponseDTO, ZoneInputDTO> = asyn
     if (error instanceof Error) {
       throw new Error(error.message, { cause: { status: 504 } });
     }
-    throw new Error('Unknown error occurred while fetching geographical data.');
+    throw new Error('Unknown error');
   }
 };
