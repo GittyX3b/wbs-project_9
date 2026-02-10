@@ -6,7 +6,7 @@ import type { LocationFormInputsType } from '@types';
 import { scrollToElementID, sleep } from '@utils';
 
 export const LocationForm = () => {
-  const { locationform, dispatchLocationForm } = useSession();
+  const { locationform, dispatchLocationForm, dispatchResponseData } = useSession();
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = e.currentTarget;
@@ -79,25 +79,30 @@ export const LocationForm = () => {
     }
 
     /* Request to our backend */
+    dispatchLocationForm({ type: 'SET_SUCCESS', payload: false });
     try {
-      const response = await fetch('https://map-told-api.onrender.com/geo/data', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/geo/data`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ coordinates }),
       });
 
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      if (!response.ok) {
+        dispatchLocationForm({ type: 'SET_PENDING', payload: false });
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const data = await response.json();
-      console.log('API response:', data);
-    } catch (err) {
-      console.error('Fetch error:', err);
-    }
 
-    dispatchLocationForm({ type: 'SET_SUCCESS', payload: true });
-    dispatchLocationForm({ type: 'SET_PENDING', payload: false });
-    await sleep(100);
-    scrollToElementID('Response');
+      dispatchResponseData({ type: 'SET_DATA', payload: data });
+      dispatchLocationForm({ type: 'SET_SUCCESS', payload: true });
+      dispatchLocationForm({ type: 'SET_PENDING', payload: false });
+      await sleep(100);
+      scrollToElementID('Response');
+    } catch (err) {
+      dispatchLocationForm({ type: 'SET_PENDING', payload: false });
+      throw new Error(`Fetch error:: ${err}`);
+    }
   };
 
   return (
@@ -154,6 +159,7 @@ export const LocationForm = () => {
                     type='text'
                     className='input w-full'
                     placeholder='Strasse'
+                    required={locationform.mask === 'address'}
                     disabled={locationform.pending}
                     value={locationform.inputs.street ?? ''}
                     onChange={changeHandler}
@@ -163,6 +169,7 @@ export const LocationForm = () => {
                     type='text'
                     className='input w-full'
                     placeholder='Nr'
+                    required={locationform.mask === 'address'}
                     disabled={locationform.pending}
                     value={locationform.inputs.house ?? ''}
                     onChange={changeHandler}
@@ -174,6 +181,7 @@ export const LocationForm = () => {
                     type='text'
                     className='input w-full'
                     placeholder='PLZ'
+                    required={locationform.mask === 'address'}
                     disabled={locationform.pending}
                     value={locationform.inputs.postcode ?? ''}
                     onChange={changeHandler}
@@ -183,6 +191,7 @@ export const LocationForm = () => {
                     type='text'
                     className='input w-full'
                     placeholder='Stadt'
+                    required={locationform.mask === 'address'}
                     disabled={locationform.pending}
                     value={locationform.inputs.city ?? ''}
                     onChange={changeHandler}
@@ -199,6 +208,7 @@ export const LocationForm = () => {
                   className='input w-full'
                   placeholder='Längengrad (Longitude)'
                   step={0.0001}
+                  required={locationform.mask === 'coordinates'}
                   disabled={locationform.pending}
                   value={locationform.inputs.longitude ?? ''}
                   onChange={changeHandler}
@@ -209,6 +219,7 @@ export const LocationForm = () => {
                   className='input w-full'
                   placeholder='Breitengrad (Latitude)'
                   step={0.0001}
+                  required={locationform.mask === 'coordinates'}
                   disabled={locationform.pending}
                   value={locationform.inputs.latitude ?? ''}
                   onChange={changeHandler}
@@ -216,31 +227,9 @@ export const LocationForm = () => {
               </div>
             )}
 
-            <div id='Errors-Container' className='min-h-20'>
-              <ul className='list-disc p-2 px-6'>
-                {/* locationform.mask === 'address' && (
-                  <>
-                    {errors.street && <li className='form-error'>Bitte Straße eingeben.</li>}
-                    {errors.house && <li className='form-error'>Bitte Hausnummer eingeben.</li>}
-                    {errors.postcode && <li className='form-error'>Bitte PLZ eingeben.</li>}
-                    {errors.city && <li className='form-error'>Bitte Stadt eingeben.</li>}
-                  </>
-                )}
-                {locationform.mask === 'coordinates' && (
-                  <>
-                    {errors.longitude && (
-                      <li className='form-error'>Längengrad zwischen 5 und 16 eingeben.</li>
-                    )}
-                    {errors.latitude && (
-                      <li className='form-error'>Breitengrad zwischen 47 und 51 eingeben.</li>
-                    )}
-                  </>
-                )*/}
-              </ul>
-            </div>
             {/* SUBMIT BUTTON ============================================= */}
             <button
-              className={`btn btn-secondary m-auto mt-2 w-full text-white ${locationform.pending ? 'bg-mt-color-11 cursor-not-allowed' : 'bg-mt-color-31'}`}
+              className={`btn btn-secondary m-auto mt-15 w-full text-white ${locationform.pending ? 'bg-mt-color-11 cursor-not-allowed' : 'bg-mt-color-31'}`}
               disabled={locationform.pending}
             >
               {locationform.pending ? (

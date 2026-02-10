@@ -9,13 +9,15 @@ Deployment: [https://map-told.onrender.com/](https://map-told.onrender.com/)
 
 ### Plugins and Tools:
 
+[TailwindCSS](https://tailwindcss.com/docs/installation/using-vite)
+
+[Daisy UI](https://daisyui.com/components/)
+
 [Lucide Icons](https://react-icons.github.io/react-icons/icons/lu/)
 
 [Leaflet React](https://react-leaflet.js.org/)
 
-[TailwindCSS](https://tailwindcss.com/docs/installation/using-vite)
-
-[Daisy UI](https://daisyui.com/components/)
+[Photon API](https://photon.komoot.io/)
 
 <br>
 <br>

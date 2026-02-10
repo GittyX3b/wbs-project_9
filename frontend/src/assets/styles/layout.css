@@ -6,3 +6,14 @@ html {
 .app-container {
   @apply border-mt-color-4 m-auto max-w-[1600px] border-x bg-white shadow-xl;
 }
+
+#Response {
+  .response-component {
+    @apply pb-10 sm:px-10 lg:px-0;
+  }
+
+  th,
+  td {
+    @apply p-1 text-center text-base;
+  }
+}

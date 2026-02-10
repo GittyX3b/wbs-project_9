@@ -1,13 +1,15 @@
 import { z } from 'zod';
 
-/* ───────── Session-Context ───────── */
+/* ───────── Session-Context ──────────── */
 
 export type SessionContextType = {
   locationform: LocationFormType;
   dispatchLocationForm: React.Dispatch<LocationFormActionType>;
+  responsedata: ResponseDataType;
+  dispatchResponseData: React.Dispatch<ResponseDataActionType>;
 };
 
-/* ───────── Location-Form ─────────── */
+/* ───────── Location-Form ────────────── */
 
 export const LocationFormMaskSchema = z.enum(['address', 'coordinates']);
 
@@ -50,3 +52,17 @@ export type LocationFormInputsType = z.infer<typeof LocationFormInputsSchema>;
 export type LocationFormMaskType = z.infer<typeof LocationFormMaskSchema>;
 export type LocationFormType = z.infer<typeof LocationFormSchema>;
 export type LocationFormActionType = z.infer<typeof LocationFormActionSchema>;
+
+/* ───────── Respnse-Data ─────────────── */
+
+// TODO: update schemas before rollout
+export const ResponseDataSchema = z.any();
+export const ResponseDataActionSchema = z.discriminatedUnion('type', [
+  z.object({
+    type: z.literal('SET_DATA'),
+    payload: ResponseDataSchema,
+  }),
+]);
+
+export type ResponseDataType = z.infer<typeof ResponseDataSchema>;
+export type ResponseDataActionType = z.infer<typeof ResponseDataActionSchema>;
