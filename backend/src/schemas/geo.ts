@@ -13,9 +13,14 @@ const polygonGeometrySchema = z.object({
   coordinates: z.array(z.array(positionSchema))
 });
 
+const pointGeometrySchema = z.object({
+  type: z.literal('Point'),
+  coordinates: positionSchema
+});
+
 export const geoFeatureSchema = z.object({
   type: z.literal('Feature'),
-  geometry: z.union([lineStringGeometrySchema, polygonGeometrySchema]),
+  geometry: z.union([lineStringGeometrySchema, polygonGeometrySchema, pointGeometrySchema]),
   properties: z.record(z.string(), z.any())
 });
 
