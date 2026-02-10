@@ -36,7 +36,7 @@ export function buildPoisQuery(bbox: BBox, pois: string[]): string {
   const querys: string[] = [];
 
   for (const poi of pois) {
-    const key = poi === 'museum' ? 'tourism' : 'amenity';
+    const key = poi === 'museum' ? 'tourism' : poi === 'bus_stop' ? 'highway' : 'amenity';
     querys.push(`node["${key}"="${poi}"](${bbox.join(',')});`);
   }
 
