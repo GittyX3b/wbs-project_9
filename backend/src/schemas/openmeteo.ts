@@ -13,7 +13,6 @@ export const openMeteoSchema = z.object({
   daily: z.object({
     time: z.array(z.date()),
     temperature_2m_max: z.array(z.number()),
-    temperature_2m_min: z.array(z.number()),
-    sunshine_duration: z.array(z.number())
+    temperature_2m_min: z.array(z.number())
   })
 });

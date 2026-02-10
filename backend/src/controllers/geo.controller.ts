@@ -78,8 +78,7 @@ export const getBaseLayers: RequestHandler<{}, GeoResponseDTO, ZoneInputDTO> = a
       precipitation: weatherData.current.precipitation,
       snowfall: weatherData.current.snowfall,
       max_temp_next7days: weatherData.daily.temperature_2m_max,
-      min_temp_next7days: weatherData.daily.temperature_2m_min,
-      sunshine_next7days: weatherData.daily.sunshine_duration
+      min_temp_next7days: weatherData.daily.temperature_2m_min
     },
     aiText: zone.aiText ?? null
   });

@@ -4,7 +4,7 @@ import type { openMeteoDTO } from '#types';
 const params = {
   latitude: 0,
   longitude: 0,
-  daily: ['temperature_2m_max', 'temperature_2m_min', 'sunshine_duration'],
+  daily: ['temperature_2m_max', 'temperature_2m_min'],
   current: ['temperature_2m', 'relative_humidity_2m', 'precipitation', 'wind_speed_10m', 'snowfall', 'is_day'],
   timezone: ''
 };
@@ -27,8 +27,6 @@ export async function openMeteo(
   const current = response.current()!;
   const daily = response.daily()!;
   // Define Int64 variables so they can be processed accordingly
-  const sunrise = daily.variables(2)!;
-  const sunset = daily.variables(3)!;
 
   const weatherData = {
     current: {
@@ -46,9 +44,8 @@ export async function openMeteo(
         (_, i) => new Date((Number(daily.time()) + i * daily.interval() + utcOffsetSeconds) * 1000)
       ),
       temperature_2m_max: daily.variables(0)!.valuesArray(),
-      temperature_2m_min: daily.variables(1)!.valuesArray(),
+      temperature_2m_min: daily.variables(1)!.valuesArray()
       // Map Int64 values to according structure
-      sunshine_duration: daily.variables(2)!.valuesArray()
     }
   };
   return weatherData as openMeteoDTO;
