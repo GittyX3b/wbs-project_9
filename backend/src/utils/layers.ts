@@ -1,7 +1,7 @@
-import type { GeoFeature, GeoLayers, OsmElements } from '#types';
+import type { GeoFeature, GeoLayers, OsmElement } from '#types';
 
 /** Extract layers from OSM data in GEOJson format */
-export function getLayers(osmData: OsmElements): GeoLayers {
+export function getLayers(elements: OsmElement[]): GeoLayers {
   const layers = {
     buildings: { type: 'FeatureCollection' as const, features: [] as GeoFeature[] },
     roads: { type: 'FeatureCollection' as const, features: [] as GeoFeature[] },
@@ -9,7 +9,8 @@ export function getLayers(osmData: OsmElements): GeoLayers {
     water: { type: 'FeatureCollection' as const, features: [] as GeoFeature[] }
   };
 
-  osmData.elements.forEach(el => {
+  elements.forEach(el => {
+    if (el.type === 'node') return; // Skip nodes for base layers
     if (!el.geometry || el.geometry.length < 2) return;
     const tags = el.tags || {};
 
