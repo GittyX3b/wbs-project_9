@@ -5,7 +5,7 @@ const envSchema = z.object({
   DB_NAME: z.string(),
   CLIENT_BASE_URL: z.url().default('http://localhost:5173'),
   OPENAI_API_KEY: z.string(),
-  OPENAI_MODEL: z.string(),
+  OPENAI_MODEL: z.string().optional(),
   GEMINI_API_KEY: z.string(),
   OVERPASS_API_URL: z.url().default('https://overpass-api.de/api/interpreter')
 });

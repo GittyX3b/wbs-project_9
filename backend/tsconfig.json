@@ -5,6 +5,7 @@
     "lib": ["es2022"],
     "target": "es2022",
     "skipLibCheck": true,
+    "incremental": true,
     "allowJs": true,
     "resolveJsonModule": true,
     "moduleDetection": "force",
