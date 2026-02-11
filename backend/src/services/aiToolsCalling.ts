@@ -97,11 +97,11 @@ export const aiToolsCalling: RequestHandler<any, {}, aiToolsIncomingPrompt> = as
       role: 'user',
       parts: [
         {
-          text: `User question: ${req.body.prompt} 
-          Zone data from database:${zone ? JSON.stringify(zone.stats) : 'none'}
-          Privous ai text from database:${zone ? zone.aiText : 'none'}
-          Zone coordinates from database:${zone ? JSON.stringify(zone.coordinates) : 'none'}
-          Explain the zone data. If you need more info, call tools.`
+          text: `User Frage: ${req.body.prompt} 
+          Zone data aus der Datenbank:${zone ? JSON.stringify(zone.stats) : 'none'}
+          Privous KI Text aus der Datenbank::${zone ? zone.aiText : 'none'}
+          Zone Koordinaten aus der Datenbank::${zone ? JSON.stringify(zone.coordinates) : 'none'}
+          Erkläre die Zonendaten. Wenn du mehr Informationen brauchst, Ruf tools.`
         }
       ]
     }
@@ -110,7 +110,7 @@ export const aiToolsCalling: RequestHandler<any, {}, aiToolsIncomingPrompt> = as
     role: 'system',
     parts: [
       {
-        text: 'You are a GIS assistant. Use database data first. Only call tools if data is missing.'
+        text: 'Du bist ein GIS Assistant. verwend erstmal Daten aus der Datenbank. Nur Ruf Tools,wenn die Daten nicht existiert.'
       }
     ]
   });
