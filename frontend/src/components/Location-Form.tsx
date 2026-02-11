@@ -38,7 +38,7 @@ export const LocationForm = () => {
       await fetch(url)
         .then((res) => {
           if (!res.ok) {
-            throw new Error(`HTTP error ${res.status}`);
+            throw new Error(`Address conversion error! status: ${res.status}`);
           }
           return res.json();
         })
@@ -49,7 +49,7 @@ export const LocationForm = () => {
             data.features.length === 0 ||
             !data.features[0]?.geometry?.coordinates
           ) {
-            throw new Error('No coordinates found for this address');
+            throw new Error('Error! No coordinates were responded for this address!');
           }
           const [lon, lat] = data.features[0].geometry.coordinates;
           const newFormData = {
@@ -68,7 +68,7 @@ export const LocationForm = () => {
           };
         })
         .catch((err) => {
-          console.error('Geocoding failed:', err.message);
+          throw new Error('Address conversion failed:', err.message);
         });
     }
     if (locationform.mask === 'coordinates') {
@@ -89,10 +89,11 @@ export const LocationForm = () => {
 
       if (!response.ok) {
         dispatchLocationForm({ type: 'SET_PENDING', payload: false });
-        throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`API Request failed! status: ${response.status}`);
       }
 
       const data = await response.json();
+      console.log('API response:', data);
 
       dispatchResponseData({ type: 'SET_DATA', payload: data });
       dispatchLocationForm({ type: 'SET_SUCCESS', payload: true });
@@ -101,7 +102,7 @@ export const LocationForm = () => {
       scrollToElementID('Response');
     } catch (err) {
       dispatchLocationForm({ type: 'SET_PENDING', payload: false });
-      throw new Error(`Fetch error:: ${err}`);
+      throw new Error(`API Fetch error:: ${err}`);
     }
   };
 

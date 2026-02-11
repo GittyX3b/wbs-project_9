@@ -20,3 +20,7 @@
 .btn-mapfilter {
   @apply btn btn-xs lg:btn-md bg-mt-color-10 hover:bg-mt-color-11 border-0 text-black hover:text-white;
 }
+
+.btn-mapfilter-outline {
+  @apply btn btn-xs lg:btn-md border-0 bg-zinc-100 text-black hover:bg-zinc-600 hover:text-white;
+}

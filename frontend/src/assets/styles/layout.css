@@ -1,6 +1,6 @@
 html {
   scroll-behavior: smooth;
-  @apply select-none;
+  @apply select-auto;
 }
 
 .app-container {
