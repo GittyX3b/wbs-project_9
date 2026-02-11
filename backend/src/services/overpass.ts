@@ -42,7 +42,7 @@ export function buildPoisQuery(bbox: BBox, pois: string[]): string {
 
   for (const poi of pois) {
     const key = poi === 'museum' ? 'tourism' : poi === 'bus_stop' ? 'highway' : 'amenity';
-    querys.push(`node["${key}"="${poi}"](${bbox.join(',')});`);
+    querys.push(`nwr["${key}"="${poi}"](${bbox.join(',')});`);
   }
 
   return `
@@ -50,7 +50,5 @@ export function buildPoisQuery(bbox: BBox, pois: string[]): string {
           (
             ${querys.join('\n')}
           );  
-          out body;
-          >;
-          out skel qt;`;
+          out geom;`;
 }

@@ -2,6 +2,11 @@ import { z } from 'zod';
 
 const osmTagsSchema = z.record(z.string(), z.string());
 
+const osmPointSchema = z.object({
+  lat: z.number(),
+  lon: z.number()
+});
+
 export const osmNodeSchema = z.object({
   type: z.literal('node'),
   id: z.number(),
@@ -13,12 +18,7 @@ export const osmNodeSchema = z.object({
 export const osmWaySchema = z.object({
   type: z.literal('way'),
   id: z.number(),
-  geometry: z.array(
-    z.object({
-      lat: z.number(),
-      lon: z.number()
-    })
-  ),
+  geometry: z.array(osmPointSchema),
   tags: osmTagsSchema.optional()
 });
 
@@ -30,14 +30,7 @@ const osmRelationSchema = z.object({
       type: z.enum(['node', 'way', 'relation']),
       ref: z.number(),
       role: z.string(),
-      geometry: z
-        .array(
-          z.object({
-            lat: z.number(),
-            lon: z.number()
-          })
-        )
-        .optional()
+      geometry: z.array(osmPointSchema).optional()
     })
   ),
   tags: osmTagsSchema.optional()
