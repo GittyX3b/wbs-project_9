@@ -4,7 +4,7 @@ const envSchema = z.object({
   MONGO_URI: z.url({ protocol: /mongodb/ }),
   DB_NAME: z.string(),
   CLIENT_BASE_URL: z.url().default('http://localhost:5173'),
-  OPENAI_API_KEY: z.string(),
+  OPENAI_API_KEY: z.string().optional(),
   OPENAI_MODEL: z.string().optional(),
   GEMINI_API_KEY: z.string(),
   OVERPASS_API_URL: z.url().default('https://overpass-api.de/api/interpreter')
