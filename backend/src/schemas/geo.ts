@@ -3,6 +3,11 @@ import { Types } from 'mongoose';
 
 const positionSchema = z.tuple([z.number(), z.number()]);
 
+const pointGeometrySchema = z.object({
+  type: z.literal('Point'),
+  coordinates: positionSchema
+});
+
 const lineStringGeometrySchema = z.object({
   type: z.literal('LineString'),
   coordinates: z.array(positionSchema)
@@ -13,14 +18,14 @@ const polygonGeometrySchema = z.object({
   coordinates: z.array(z.array(positionSchema))
 });
 
-const pointGeometrySchema = z.object({
-  type: z.literal('Point'),
-  coordinates: positionSchema
+const multiPolygonGeometrySchema = z.object({
+  type: z.literal('MultiPolygon'),
+  coordinates: z.array(z.array(z.array(positionSchema)))
 });
 
 export const geoFeatureSchema = z.object({
   type: z.literal('Feature'),
-  geometry: z.union([lineStringGeometrySchema, polygonGeometrySchema, pointGeometrySchema]),
+  geometry: z.union([pointGeometrySchema, lineStringGeometrySchema, polygonGeometrySchema, multiPolygonGeometrySchema]),
   properties: z.record(z.string(), z.any())
 });
 

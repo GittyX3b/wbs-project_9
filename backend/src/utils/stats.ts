@@ -1,55 +1,54 @@
-import type { GeoFeature, GeoLayers } from '#types';
+import type { BBox, GeoFeature, GeoLayers } from '#types';
 import * as turf from '@turf/turf';
 
 /** Calculate various statistics for the zone based on its layers */
-export function calculateZoneStats(layers: GeoLayers, bbox: [number, number, number, number]) {
+export function calculateZoneStats(layers: GeoLayers, bbox: BBox) {
   const {
     buildings = layers.buildings,
     roads = layers.roads,
     green = layers.green,
     water = layers.water
   } = layers || {};
+
   const buildingsFeatures = buildings?.features || [];
+
+  const areaKm2 = turf.area(turf.bboxPolygon(bbox)) / 1e6; // area in km²
+
   const buildingCount = buildingsFeatures.length;
-  const buildingDensity = buildingCount / turf.area(turf.bboxPolygon(bbox)) / 1e6; // buildings per km²
+  const buildingDensity = areaKm2 > 0 ? buildingCount / areaKm2 : null; // buildings per km²
 
   const totalRoadLength = roads.features.reduce((sum, f) => {
     const length = turf.length(f, { units: 'kilometers' });
     return sum + length;
   }, 0);
 
-  const roadToBuildingRatio = buildingCount > 0 ? totalRoadLength / buildingCount : null;
+  const roadDensity = areaKm2 > 0 ? totalRoadLength / areaKm2 : null; // km of road per km²
 
   const greenAreaKm2 =
     green.features.reduce((sum: number, feature: GeoFeature) => {
       return sum + turf.area(feature);
     }, 0) / 1e6;
-  const greenToBuildingRatio = buildingCount > 0 ? greenAreaKm2 / buildingCount : null;
+
+  const greenCoverage = areaKm2 > 0 ? greenAreaKm2 / areaKm2 : null; // proportion of green area
 
   const waterAreaKm2 =
     water.features.filter(f => f.geometry.type === 'Polygon').reduce((sum, f) => sum + turf.area(f), 0) / 1e6;
+
+  const waterCoverage = areaKm2 > 0 ? waterAreaKm2 / areaKm2 : null; // proportion of water area
+
   const riverLengthKm = water.features
     .filter(f => f.geometry.type === 'LineString')
     .reduce((sum, f) => sum + turf.length(f, { units: 'kilometers' }), 0);
 
-  const museumCount = buildingsFeatures.filter(f => f.properties?.tourism === 'museum').length;
-  const theaterCount = buildingsFeatures.filter(f => f.properties?.amenity === 'theatre').length;
-  const restaurantCount = buildingsFeatures.filter(f => f.properties?.amenity === 'restaurant').length;
-  const fastFoodCount = buildingsFeatures.filter(f => f.properties?.amenity === 'fast_food').length;
-  const cafeCount = buildingsFeatures.filter(f => f.properties?.amenity === 'cafe').length;
-  const supermarketCount = buildingsFeatures.filter(f => f.properties?.shop === 'supermarket').length;
+  const hasRivers = riverLengthKm > 0;
 
   return {
+    areaKm2,
     buildingDensity,
-    roadToBuildingRatio,
-    greenToBuildingRatio,
-    waterAreaKm2,
+    roadDensity,
+    greenCoverage,
+    waterCoverage,
     riverLengthKm,
-    museumCount,
-    theaterCount,
-    restaurantCount,
-    fastFoodCount,
-    cafeCount,
-    supermarketCount
+    hasRivers
   };
 }

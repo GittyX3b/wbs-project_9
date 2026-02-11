@@ -23,7 +23,7 @@ export async function generateAiText(stats: PromptBody): Promise<string> {
   const response = await client.responses.create({
     model,
     input: [
-      { role: 'system', content: prompt },
+      { role: 'system', content: prompt() },
       {
         role: 'user',
         content: JSON.stringify(stats, null, 2)

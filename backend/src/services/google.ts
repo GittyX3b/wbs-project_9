@@ -13,7 +13,7 @@ export async function generateGoogleAiText(stats: PromptBody): Promise<string> {
     contents: [
       {
         role: 'user',
-        parts: [{ text: prompt }]
+        parts: [{ text: prompt() }]
       },
       {
         role: 'user',
@@ -31,9 +31,9 @@ export async function generateGoogleAiText(stats: PromptBody): Promise<string> {
       }
     }
   });
-  console.log('Google AI response:', response);
+
   const text = response.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text) throw new Error('No content returned');
+  if (!text) throw new Error('No content returned from Google GenAI');
 
   return JSON.parse(text).summary;
 }

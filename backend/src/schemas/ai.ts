@@ -1,15 +1,12 @@
 import { z } from 'zod';
 
 export const promptBodySchema = z.object({
-  buildingDensity: z.number(),
-  greenToBuildingRatio: z.number().nullable(),
-  roadToBuildingRatio: z.number().nullable(),
-  waterAreaKm2: z.number(),
+  areaKm2: z.number(),
+  buildingDensity: z.number().nullable(),
+  roadDensity: z.number().nullable(),
+  greenCoverage: z.number().nullable(),
+  waterCoverage: z.number().nullable(),
   riverLengthKm: z.number(),
-  restaurantCount: z.number(),
-  fastFoodCount: z.number(),
-  cafeCount: z.number(),
-  supermarketCount: z.number(),
   elevation: z.number(),
   temperature: z.number(),
   humidity: z.number()

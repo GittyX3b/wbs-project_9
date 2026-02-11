@@ -27,39 +27,23 @@ const zoneSchema = new Schema(
     stats: {
       buildingDensity: {
         type: Number,
-        min: [0, 'buildingCount cannot be negative']
+        min: [0, 'buildingDensity cannot be negative']
       },
-      roadToBuildingRatio: {
+      roadDensity: {
         type: Number,
-        min: [0, 'roadToBuildingRatio cannot be negative']
+        min: [0, 'roadDensity cannot be negative']
       },
-      greenToBuildingRatio: {
+      greenCoverage: {
         type: Number,
-        min: [0, 'greenToBuildingRatio cannot be negative']
+        min: [0, 'greenCoverage cannot be negative']
       },
-      waterAreaKm2: {
+      waterCoverage: {
         type: Number,
-        min: [0, 'waterAreaKm2 cannot be negative']
+        min: [0, 'waterCoverage cannot be negative']
       },
       riverLengthKm: {
         type: Number,
         min: [0, 'riverLengthKm cannot be negative']
-      },
-      restaurantCount: {
-        type: Number,
-        min: [0, 'restaurantCount cannot be negative']
-      },
-      fastFoodCount: {
-        type: Number,
-        min: [0, 'fastFoodCount cannot be negative']
-      },
-      cafeCount: {
-        type: Number,
-        min: [0, 'cafeCount cannot be negative']
-      },
-      supermarketCount: {
-        type: Number,
-        min: [0, 'supermarketCount cannot be negative']
       },
       elevation: {
         type: Number

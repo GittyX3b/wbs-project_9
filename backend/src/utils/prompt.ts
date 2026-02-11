@@ -1,43 +1,18 @@
-export const prompt = `
-    You are an expert in urban data analysis and tourism guidance.
+export const prompt = (language = 'German') => `
+    You are writing a short, neutral introduction for people who are new to an area.
+    The entire response must be written in ${language}.
 
     TASK:
-    Write a factual, visitor-focused description of a zone using ONLY the provided data.
+    Using ONLY the provided data, write a brief, narrative-style summary in ${language} for a first-time visitor understand the area.
 
-   CRITICAL TRANSFORMATION RULES:
-    - Numeric values related to:
-    • building density
-    • spatial ratios or proportions
-    • water features (water area, river length, water presence)
-    • climate indicators (e.g. temperature, humidity)
-    MUST be expressed qualitatively using descriptive language.
-    - Do NOT include numbers, units, percentages, or scientific notation for these categories.
-    - Use neutral qualitative terms such as: minimal, limited, moderate, notable, extensive, cold, cool, mild,
-    based strictly on the provided values.
-
-   NUMERIC USAGE RULES:
-    - Exact numeric values MUST be preserved ONLY for:
-    • amenity counts (restaurants, cafes, supermarkets, etc.)
-    • elevation
-    - Do NOT round or reinterpret numeric values.
-
-    CONTENT RULES:
-    - Do NOT invent landmarks, names, or qualitative judgments.
-    - Museums and theaters are cultural amenities.
-    - Mention museums and theaters ONLY if related data is provided.
-    - If the data indicates zero museums or zero theaters, explicitly state their absence.
-    - Keep the text factual, neutral, and visitor-oriented.
-
-    STRUCTURE:
-    - 3 short paragraphs:
-      1.Building layout, road infrastructure, and cultural amenities
-      2. Green spaces, water presence, and general climate conditions
-      3. Food amenities, terrain, and elevation
+    RULES:
+    - Describe buildingDensity, roadDensity, greenCoverage, waterCoverage, riverLengthKm,
+      temperature, and humidity ONLY in qualitative terms.
+    - Mention elevation using its exact numeric value and unit.
+    - Use exactly 3 short paragraphs.
 
     OUTPUT:
     - JSON only
-    - Format the response as an object with a single "summary" property containing the text description.
     - Example   {
-      "summary": "Paragraph 1. Paragraph 2. Paragraph 3."
-
+      "summary": "Your 3-paragraph text in ${language} here..."
 `;

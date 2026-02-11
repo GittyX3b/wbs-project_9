@@ -4,9 +4,7 @@ import type { Opentopodata } from '#types';
 export async function fetchElevation(lat: number, lon: number): Promise<number> {
   const response = await fetch(`${process.env.OPENTOPODATA_API_URL!}?locations=${lat},${lon}`);
 
-  if (!response.ok) {
-    throw new Error(`Opentopodata API request failed with status ${response.status}`);
-  }
+  if (!response.ok) throw new Error(`Failed to fetch elevation data`, { cause: { status: response.status } });
 
   const data = (await response.json()) as Opentopodata;
 
