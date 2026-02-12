@@ -1,4 +1,5 @@
 import { LeafletMap } from '@components';
+import { Chat } from '@components';
 import { AiText, GeoInfo, Weather } from '@elements';
 
 export const Response = () => {
@@ -25,6 +26,8 @@ export const Response = () => {
           <Weather />
         </div>
       </div>
+
+      <Chat />
     </div>
   );
 };

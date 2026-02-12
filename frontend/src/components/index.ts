@@ -1,3 +1,4 @@
+export { Chat } from './Chat';
 export { Footer } from './Footer';
 export { Hero } from './Hero.tsx';
 export { LocationForm } from './Location-Form.tsx';
