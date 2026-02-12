@@ -22,6 +22,7 @@ export function buildBaseLayersQuery(bbox: BBox): string {
           [out:json][timeout:25];
             (
               way["building"]["building"!~"^(garage|shed|annex)$"](${bboxStr});
+              relation["building"]["building"!~"^(garage|shed|annex)$"](${bboxStr});
               way["highway"]["highway"!~"^(path|footway|cycleway|track|steps)$"](${bboxStr});
               way["leisure"~"park|garden|playground"](${bboxStr});
               relation["leisure"~"park|garden|playground"](${bboxStr});
@@ -31,6 +32,7 @@ export function buildBaseLayersQuery(bbox: BBox): string {
               relation["natural"~"wood|scrub|heath"](${bboxStr});
               way["waterway"="river"](${bboxStr});
               way["natural"="water"](${bboxStr});
+              relation["natural"="water"](${bboxStr});
             );
             
           out geom;`;
