@@ -9,6 +9,12 @@ import { GeoJSON, MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
 import { useSession } from '@data';
 
+import busstopicon from '@assets/images/map-icon-busstop.png';
+import cafeicon from '@assets/images/map-icon-cafe.png';
+import museumicon from '@assets/images/map-icon-museum.png';
+import restauranticon from '@assets/images/map-icon-restaurant.png';
+import theatreicon from '@assets/images/map-icon-theatre.png';
+
 /* -----------------------------
    Map icons
 ------------------------------ */
@@ -23,35 +29,35 @@ const DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 const RestaurantIcon = L.icon({
-  iconUrl: '../src/assets/images/map-icon-restaurant.png',
+  iconUrl: restauranticon,
   shadowUrl: iconShadow,
   iconSize: [30, 30],
   iconAnchor: [10, 20],
   popupAnchor: [5, -12],
 });
 const CafeIcon = L.icon({
-  iconUrl: '../src/assets/images/map-icon-cafe.png',
+  iconUrl: cafeicon,
   shadowUrl: iconShadow,
   iconSize: [30, 30],
   iconAnchor: [10, 20],
   popupAnchor: [5, -12],
 });
 const TheatreIcon = L.icon({
-  iconUrl: '../src/assets/images/map-icon-theatre.png',
+  iconUrl: theatreicon,
   shadowUrl: iconShadow,
   iconSize: [30, 30],
   iconAnchor: [10, 20],
   popupAnchor: [5, -12],
 });
 const MuseumIcon = L.icon({
-  iconUrl: '../src/assets/images/map-icon-museum.png',
+  iconUrl: museumicon,
   shadowUrl: iconShadow,
   iconSize: [30, 30],
   iconAnchor: [10, 20],
   popupAnchor: [5, -12],
 });
 const BusStopIcon = L.icon({
-  iconUrl: '../src/assets/images/map-icon-busstop.png',
+  iconUrl: busstopicon,
   shadowUrl: iconShadow,
   iconSize: [30, 30],
   iconAnchor: [10, 20],
