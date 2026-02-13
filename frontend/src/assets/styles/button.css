@@ -9,11 +9,11 @@
 .btn-location-form-control {
   @apply btn-ghost rounded-none border-0 hover:bg-white hover:shadow-none;
 
-  &.bg-purple-100:hover {
-    @apply cursor-auto hover:bg-purple-100 hover:text-zinc-800;
+  &.bg-mt-color-20:hover {
+    @apply bg-mt-color-20 cursor-auto;
   }
-  &.bg-yellow-100:hover {
-    @apply cursor-auto hover:bg-yellow-100 hover:text-zinc-800;
+  &.bg-mt-color-4:hover {
+    @apply bg-mt-color-4 cursor-auto;
   }
 }
 

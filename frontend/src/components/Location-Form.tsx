@@ -138,7 +138,7 @@ export const LocationForm = () => {
         <div id='Location-Form-Control-Buttons' className='mb-5 grid grid-cols-2'>
           <button
             type='button'
-            className={`btn btn-location-form-control ${locationform.pending ? 'bg-green-100' : locationform.mask === 'address' ? 'bg-purple-100' : ''}`}
+            className={`btn btn-location-form-control ${locationform.pending ? 'bg-green-100' : locationform.mask === 'address' ? 'bg-mt-color-4' : 'bg-yellow-100'}`}
             disabled={locationform.pending}
             onClick={() => dispatchLocationForm({ type: 'SET_MASK', payload: 'address' })}
           >
@@ -146,7 +146,7 @@ export const LocationForm = () => {
           </button>
           <button
             type='button'
-            className={`btn btn-location-form-control ${locationform.pending ? 'bg-green-100' : locationform.mask === 'coordinates' ? 'bg-yellow-100' : ''}`}
+            className={`btn btn-location-form-control ${locationform.pending ? 'bg-green-100' : locationform.mask === 'coordinates' ? 'bg-mt-color-20' : 'bg-purple-100'}`}
             disabled={locationform.pending}
             onClick={() => dispatchLocationForm({ type: 'SET_MASK', payload: 'coordinates' })}
           >
