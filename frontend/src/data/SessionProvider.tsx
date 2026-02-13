@@ -4,7 +4,6 @@ import {
   LocationFormActionSchema,
   type LocationFormActionType,
   type LocationFormType,
-  ResponseDataActionSchema,
   type ResponseDataActionType,
   type ResponseDataType,
   type SessionContextType,
@@ -37,7 +36,7 @@ const responseDataReducer = (
   _state: ResponseDataType,
   action: ResponseDataActionType,
 ): ResponseDataType => {
-  ResponseDataActionSchema.parse(action);
+  //ResponseDataActionSchema.parse(action);
 
   switch (action.type) {
     case 'SET_DATA':

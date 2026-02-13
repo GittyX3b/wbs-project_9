@@ -1,4 +1,4 @@
-import type { Feature, FeatureCollection, GeometryCollection } from 'geojson';
+import type { Feature, FeatureCollection, GeoJsonObject, GeometryCollection } from 'geojson';
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -10,7 +10,7 @@ import { GeoJSON, MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { useSession } from '@data';
 
 /* -----------------------------
-   Fix default marker icon
+   Map icons
 ------------------------------ */
 
 const DefaultIcon = L.icon({
@@ -29,7 +29,6 @@ const RestaurantIcon = L.icon({
   iconAnchor: [10, 20],
   popupAnchor: [5, -12],
 });
-
 const CafeIcon = L.icon({
   iconUrl: '../src/assets/images/map-icon-cafe.png',
   shadowUrl: iconShadow,
@@ -37,7 +36,6 @@ const CafeIcon = L.icon({
   iconAnchor: [10, 20],
   popupAnchor: [5, -12],
 });
-
 const TheatreIcon = L.icon({
   iconUrl: '../src/assets/images/map-icon-theatre.png',
   shadowUrl: iconShadow,
@@ -45,7 +43,6 @@ const TheatreIcon = L.icon({
   iconAnchor: [10, 20],
   popupAnchor: [5, -12],
 });
-
 const MuseumIcon = L.icon({
   iconUrl: '../src/assets/images/map-icon-museum.png',
   shadowUrl: iconShadow,
@@ -53,7 +50,6 @@ const MuseumIcon = L.icon({
   iconAnchor: [10, 20],
   popupAnchor: [5, -12],
 });
-
 const BusStopIcon = L.icon({
   iconUrl: '../src/assets/images/map-icon-busstop.png',
   shadowUrl: iconShadow,
@@ -66,7 +62,12 @@ const BusStopIcon = L.icon({
    Types
 ------------------------------ */
 
-type GeoData = FeatureCollection | Feature | GeometryCollection;
+type ApiFeatureCollection = {
+  type: 'FeatureCollection' | null;
+  features?: Feature[];
+};
+
+type GeoData = FeatureCollection | Feature | GeometryCollection | ApiFeatureCollection;
 
 type MapLayerProps = {
   data?: GeoData;
@@ -75,6 +76,22 @@ type MapLayerProps = {
   weight: number;
   opacity: number;
   fillOpacity: number;
+};
+
+const isRenderableFeatureCollection = (d: ApiFeatureCollection): d is FeatureCollection =>
+  d.type === 'FeatureCollection' && Array.isArray(d.features);
+
+const toGeoJson = (d?: GeoData): GeoJsonObject | null => {
+  if (!d) return null;
+
+  if ('type' in d && d.type === null) return null;
+
+  if ('type' in d && d.type === 'FeatureCollection') {
+    if (!isRenderableFeatureCollection(d)) return null;
+    return d;
+  }
+
+  return d as GeoJsonObject;
 };
 
 /* -----------------------------
@@ -93,9 +110,10 @@ function MapLayer({ data, border, fill, weight, opacity, fillOpacity }: MapLayer
     [border, fill, weight, opacity, fillOpacity],
   );
 
-  if (!data) return null;
+  const geo = toGeoJson(data);
+  if (!geo) return null;
 
-  return <GeoJSON data={data} style={style} />;
+  return <GeoJSON data={geo} style={style} />;
 }
 
 /* -----------------------------
@@ -176,7 +194,7 @@ export const LeafletMap = ({ className = '' }: { className?: string }) => {
 
         {filterButtons.buildings && (
           <MapLayer
-            data={layers.buildings}
+            data={layers.buildings as GeoData}
             border='white'
             fill='#878EA3'
             weight={1}
@@ -187,7 +205,7 @@ export const LeafletMap = ({ className = '' }: { className?: string }) => {
 
         {filterButtons.roads && (
           <MapLayer
-            data={layers.roads}
+            data={layers.roads as GeoData}
             border='black'
             fill='#BABABA'
             weight={6}
@@ -198,7 +216,7 @@ export const LeafletMap = ({ className = '' }: { className?: string }) => {
 
         {filterButtons.green && (
           <MapLayer
-            data={layers.green}
+            data={layers.green as GeoData}
             border='white'
             fill='#42C25B'
             weight={1}
@@ -209,7 +227,7 @@ export const LeafletMap = ({ className = '' }: { className?: string }) => {
 
         {filterButtons.water && (
           <MapLayer
-            data={layers.water}
+            data={layers.water as GeoData}
             border='white'
             fill='#4F9FE3'
             weight={1}
@@ -219,10 +237,12 @@ export const LeafletMap = ({ className = '' }: { className?: string }) => {
         )}
 
         {filterButtons.restaurant &&
-          layers.pois?.restaurant?.features?.map((feature: GeoJSON.Feature, idx: number) => {
+          layers.pois?.restaurant?.features?.map((feature, idx) => {
             if (feature.geometry.type !== 'Point') return null;
 
-            const [lng, lat] = feature.geometry.coordinates;
+            const coords = feature.geometry.coordinates;
+            if (!Array.isArray(coords) || coords.length !== 2) return null;
+            const [lng, lat] = coords as [number, number];
 
             return (
               <Marker key={idx} position={[lat, lng]} icon={RestaurantIcon}>
@@ -245,10 +265,12 @@ export const LeafletMap = ({ className = '' }: { className?: string }) => {
           })}
 
         {filterButtons.cafe &&
-          layers.pois?.cafe?.features?.map((feature: GeoJSON.Feature, idx: number) => {
+          layers.pois?.cafe?.features?.map((feature, idx) => {
             if (feature.geometry.type !== 'Point') return null;
 
-            const [lng, lat] = feature.geometry.coordinates;
+            const coords = feature.geometry.coordinates;
+            if (!Array.isArray(coords) || coords.length !== 2) return null;
+            const [lng, lat] = coords as [number, number];
 
             return (
               <Marker key={idx} position={[lat, lng]} icon={CafeIcon}>
@@ -271,10 +293,12 @@ export const LeafletMap = ({ className = '' }: { className?: string }) => {
           })}
 
         {filterButtons.theatre &&
-          layers.pois?.theatre?.features?.map((feature: GeoJSON.Feature, idx: number) => {
+          layers.pois?.theatre?.features?.map((feature, idx) => {
             if (feature.geometry.type !== 'Point') return null;
 
-            const [lng, lat] = feature.geometry.coordinates;
+            const coords = feature.geometry.coordinates;
+            if (!Array.isArray(coords) || coords.length !== 2) return null;
+            const [lng, lat] = coords as [number, number];
 
             return (
               <Marker key={idx} position={[lat, lng]} icon={TheatreIcon}>
@@ -297,10 +321,12 @@ export const LeafletMap = ({ className = '' }: { className?: string }) => {
           })}
 
         {filterButtons.museum &&
-          layers.pois?.museum?.features?.map((feature: GeoJSON.Feature, idx: number) => {
+          layers.pois?.museum?.features?.map((feature, idx) => {
             if (feature.geometry.type !== 'Point') return null;
 
-            const [lng, lat] = feature.geometry.coordinates;
+            const coords = feature.geometry.coordinates;
+            if (!Array.isArray(coords) || coords.length !== 2) return null;
+            const [lng, lat] = coords as [number, number];
 
             return (
               <Marker key={idx} position={[lat, lng]} icon={MuseumIcon}>
@@ -318,10 +344,12 @@ export const LeafletMap = ({ className = '' }: { className?: string }) => {
           })}
 
         {filterButtons.busstop &&
-          layers.pois?.bus_stop?.features?.map((feature: GeoJSON.Feature, idx: number) => {
+          layers.pois?.bus_stop?.features?.map((feature, idx) => {
             if (feature.geometry.type !== 'Point') return null;
 
-            const [lng, lat] = feature.geometry.coordinates;
+            const coords = feature.geometry.coordinates;
+            if (!Array.isArray(coords) || coords.length !== 2) return null;
+            const [lng, lat] = coords as [number, number];
 
             return (
               <Marker key={idx} position={[lat, lng]} icon={BusStopIcon}>
