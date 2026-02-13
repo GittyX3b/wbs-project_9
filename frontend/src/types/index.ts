@@ -58,35 +58,17 @@ export type LocationFormActionType = z.infer<typeof LocationFormActionSchema>;
 // TODO: update schemas before rollout
 
 const geoFeatureCollectionsSchema = z.object({
-  type: z.literal('FeatureCollection').nullable(),
-  features: z
-    .array(
-      z.object({
-        type: z.literal('Feature'),
-        geometry: z.object({
-          type: z.enum(['Point', 'LineString', 'Polygon', 'MultiPolygon']),
-          coordinates: z.union([
-            z.tuple([z.number(), z.number()]), // Point
-            z.array(z.tuple([z.number(), z.number()])), // LineString
-            z.array(z.array(z.tuple([z.number(), z.number()]))), // Polygon
-            z.array(z.array(z.array(z.tuple([z.number(), z.number()])))), // MultiPolygon
-          ]),
-        }),
-        properties: z.record(z.string(), z.any()),
-      }),
-    )
-    .optional(),
+  type: z.literal('FeatureCollection'),
+  features: z.any(),
 });
 
-export const PoisSchema = z
-  .object({
-    restaurant: geoFeatureCollectionsSchema,
-    cafe: geoFeatureCollectionsSchema,
-    museum: geoFeatureCollectionsSchema,
-    theatre: geoFeatureCollectionsSchema,
-    bus_stop: geoFeatureCollectionsSchema,
-  })
-  .optional();
+export const PoisSchema = z.object({
+  restaurant: geoFeatureCollectionsSchema,
+  cafe: geoFeatureCollectionsSchema,
+  museum: geoFeatureCollectionsSchema,
+  theatre: geoFeatureCollectionsSchema,
+  bus_stop: geoFeatureCollectionsSchema,
+});
 
 export const ResponseDataSchema = z.object({
   zoneId: z.string().nullable(),

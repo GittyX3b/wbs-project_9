@@ -75,20 +75,42 @@ const SessionProvider = ({ children }: { children: ReactNode }) => {
     elevation: null,
     layers: {
       buildings: {
-        type: null,
+        type: 'FeatureCollection',
         features: [],
       },
       roads: {
-        type: null,
+        type: 'FeatureCollection',
         features: [],
       },
       green: {
-        type: null,
+        type: 'FeatureCollection',
         features: [],
       },
       water: {
-        type: null,
+        type: 'FeatureCollection',
         features: [],
+      },
+      pois: {
+        restaurant: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        cafe: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        museum: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        theatre: {
+          type: 'FeatureCollection',
+          features: [],
+        },
+        bus_stop: {
+          type: 'FeatureCollection',
+          features: [],
+        },
       },
     },
     weather: {
