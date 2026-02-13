@@ -77,7 +77,7 @@ export const ResponseDataSchema = z.object({
     roads: geoFeatureCollectionsSchema,
     green: geoFeatureCollectionsSchema,
     water: geoFeatureCollectionsSchema,
-    pois: PoisSchema,
+    pois: PoisSchema.optional(),
   }),
 
   elevation: z.number().nullable(),
