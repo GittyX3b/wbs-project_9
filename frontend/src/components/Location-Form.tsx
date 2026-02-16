@@ -120,11 +120,15 @@ export const LocationForm = () => {
     } catch (err: unknown) {
       dispatchLocationForm({ type: 'SET_PENDING', payload: false });
       const message = (err as { message: string }).message;
-      if (message === 'Failed to fetch OSM data') {
-        setError(
-          `⏳ Die Anfrage hat zu lange gedauert und wurde abgebrochen.
-         🔁 Bitte versuche es in Kürze erneut.`,
-        );
+      const errorMessages = [
+        'Failed to fetch',
+        'Failed to fetch OSM data',
+        'Failed to fetch elevation data',
+        'No content returned from Google GenAI',
+        'Failed to generate AI text',
+      ];
+      if (errorMessages.includes(message)) {
+        setError(`⚠️ Etwas ist schiefgelaufen. Bitte versuche es in Kürze erneut.`);
       } else {
         setError(message);
       }
@@ -205,12 +209,6 @@ export const LocationForm = () => {
                     onChange={changeHandler}
                   />
                 </div>
-                {errors?.address?.street && (
-                  <p className='text-sm text-red-600'>{errors.address.street} </p>
-                )}
-                {errors?.address?.house && (
-                  <p className='text-sm text-red-600'>{errors.address.house} </p>
-                )}
 
                 <div className='grid grid-cols-[30%_1fr] gap-2'>
                   <input
@@ -234,11 +232,15 @@ export const LocationForm = () => {
                     onChange={changeHandler}
                   />
                 </div>
-                {errors?.address?.postcode && (
-                  <p className='text-sm text-red-600'>{errors.address.postcode} </p>
-                )}
-                {errors?.address?.city && (
-                  <p className='text-sm text-red-600'>{errors.address.city} </p>
+                {errors?.address && (
+                  <ul className='text-sm text-red-600'>
+                    {errors.address.street && <li className='mb-0.5'>{errors.address.street}</li>}
+                    {errors.address.house && <li className='mb-0.5'>{errors.address.house}</li>}
+                    {errors.address.postcode && (
+                      <li className='mb-0.5'>{errors.address.postcode}</li>
+                    )}
+                    {errors.address.city && <li className='mb-0.5'>{errors.address.city}</li>}
+                  </ul>
                 )}
               </>
             )}
@@ -284,7 +286,7 @@ export const LocationForm = () => {
 
             {/* SUBMIT BUTTON ============================================= */}
             <button
-              className={`btn btn-secondary m-auto mt-15 w-full text-white ${locationform.pending ? 'bg-mt-color-11 cursor-not-allowed' : 'bg-mt-color-31'}`}
+              className={`btn btn-secondary m-auto mt-4 w-full text-white ${locationform.pending ? 'bg-mt-color-11 cursor-not-allowed' : 'bg-mt-color-31'}`}
               disabled={locationform.pending}
             >
               {locationform.pending ? (
