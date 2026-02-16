@@ -43,6 +43,10 @@
     "#services": {
       "development": "./src/services/index.ts",
       "default": "./dist/services/index.js"
+    },
+    "#cache": {
+      "development": "./src/cache/index.ts",
+      "default": "./dist/cache/index.js"
     }
   },
   "scripts": {

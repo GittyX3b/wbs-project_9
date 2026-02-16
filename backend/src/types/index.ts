@@ -12,8 +12,10 @@ import type {
   aiToolsPromptBodySchema,
   promptBodySchema,
   bboxSchema,
-  poiSchema
+  poiSchema,
+  cacheEntrySchema
 } from '#schemas';
+import e from 'cors';
 
 export type ZoneInputDTO = z.infer<typeof zoneInputSchema>;
 
@@ -39,3 +41,5 @@ export type PromptBody = z.infer<typeof promptBodySchema>;
 export type BBox = z.infer<typeof bboxSchema>;
 
 export type PoiType = z.infer<typeof poiSchema>;
+
+export type CacheEntry = z.infer<typeof cacheEntrySchema>;

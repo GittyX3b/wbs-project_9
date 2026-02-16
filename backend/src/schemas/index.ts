@@ -8,3 +8,4 @@ export * from './ai.ts';
 export * from './aiTools.ts';
 export * from './bbox.ts';
 export * from './poi.ts';
+export * from './cache.ts';

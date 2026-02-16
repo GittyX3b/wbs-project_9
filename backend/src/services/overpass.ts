@@ -1,9 +1,29 @@
 import { OVERPASS_API_URL } from '#config';
-import type { BBox, OsmElements, PoiType } from '#types';
+import type { BBox, OsmElements } from '#types';
+import { cache } from '#cache';
+import crypto from 'node:crypto';
+
+const generateCacheKey = (query: string): string => {
+  const normalizedQuery = query.replace(/\s+/g, ' ').trim();
+  return crypto.createHash('sha256').update(normalizedQuery).digest('hex');
+};
 
 /* Fetch OSM data from Overpass API based on a custom query */
 export async function fetchOsmData(query: string): Promise<OsmElements> {
   // console.log('Fetching OSM data with query:', query);
+
+  // Check cache first
+  const cacheKey = `overpass:${generateCacheKey(query)}`;
+
+  // console.log('Generated cache key:', cacheKey);
+  const cachedData = cache.get(cacheKey);
+  if (cachedData) {
+    // console.log('Cache hit for query');
+    return cachedData as OsmElements;
+  }
+
+  // console.log('Cache miss for query, fetching from Overpass API');
+
   const response = await fetch(OVERPASS_API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
@@ -12,7 +32,10 @@ export async function fetchOsmData(query: string): Promise<OsmElements> {
 
   if (!response.ok) throw new Error(`Failed to fetch OSM data`, { cause: { status: response.status } });
 
-  return (await response.json()) as OsmElements;
+  const data = (await response.json()) as OsmElements;
+  cache.set(cacheKey, data);
+
+  return data;
 }
 
 /* Build Overpass query for base layers (buildings, roads, green spaces, water) based on a bounding box */
