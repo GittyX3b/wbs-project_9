@@ -51,14 +51,14 @@ export function getLayers(elements: OsmElement[]): GeoLayers {
         };
       }
     } else if (el.type === 'relation' && el.members) {
-      const members = el.members
+      const coords = el.members
         .filter(m => m.type === 'way' && m.geometry && m.geometry.length > 0)
         .map(m => m.geometry!.map(p => [p.lon, p.lat] as [number, number]));
 
-      if (members.length === 0) return;
+      if (coords.length === 0) return;
       geometry = {
         type: 'MultiPolygon',
-        coordinates: members.map(m => [m])
+        coordinates: coords.map(m => [m])
       };
     }
 
