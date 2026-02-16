@@ -7,7 +7,11 @@ const envSchema = z.object({
   OPENAI_API_KEY: z.string().optional(),
   OPENAI_MODEL: z.string().optional(),
   GEMINI_API_KEY: z.string(),
-  OVERPASS_API_URL: z.url().default('https://overpass-api.de/api/interpreter')
+  OVERPASS_API_URL: z.url().default('https://overpass-api.de/api/interpreter'),
+  CACHE_TTL: z
+    .string()
+    .transform(val => Number(val))
+    .default(1200000)
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
@@ -17,5 +21,13 @@ if (!parsedEnv.success) {
   process.exit(1);
 }
 
-export const { MONGO_URI, DB_NAME, CLIENT_BASE_URL, OPENAI_API_KEY, OPENAI_MODEL, GEMINI_API_KEY, OVERPASS_API_URL } =
-  parsedEnv.data;
+export const {
+  MONGO_URI,
+  DB_NAME,
+  CLIENT_BASE_URL,
+  OPENAI_API_KEY,
+  OPENAI_MODEL,
+  GEMINI_API_KEY,
+  OVERPASS_API_URL,
+  CACHE_TTL
+} = parsedEnv.data;
