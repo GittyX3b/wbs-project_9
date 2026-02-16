@@ -1,5 +1,5 @@
-import { getBBox, getLayers } from '#utils';
-import { fetchOsmData, fetchElevation, openMeteo, buildBaseLayersQuery } from '#services';
+import { getBBox, getPois } from '#utils';
+import { fetchOsmData, fetchElevation, openMeteo, buildPoisQuery } from '#services';
 import { GoogleGenAI, Type } from '@google/genai';
 import type { Content } from '@google/genai';
 import type { RequestHandler } from 'express';
@@ -150,13 +150,14 @@ export const aiToolsCalling: RequestHandler<any, {}, aiToolsIncomingPrompt> = as
 
     if (functionCall!.name === 'OsmInfo') {
       const bbox = await getBBox(lat, lon, 0.5);
-      const osmData = await fetchOsmData(buildBaseLayersQuery(bbox));
-      const { buildings, roads, green, water } = getLayers(osmData.elements);
+      const osmData = await fetchOsmData(buildPoisQuery(bbox, ['restaurant', 'cafe', 'museum', 'theatre', 'bus_stop']));
+      const { restaurant, cafe, museum, theatre, bus_stop } = getPois(osmData.elements);
       const stats = {
-        buildingCount: buildings.features.length,
-        greenCount: green.features.length,
-        roadCount: roads.features.length,
-        waterCount: water.features.length
+        restaurants: restaurant?.features.map(feature => feature.properties) || null,
+        cafes: cafe?.features.map(feature => feature.properties) || null,
+        museums: museum?.features.map(feature => feature.properties) || null,
+        theatres: theatre?.features.map(feature => feature.properties) || null,
+        bus_stops: bus_stop?.features.map(feature => feature.properties) || null
       };
       console.log(`Function execution result: ${JSON.stringify(stats)}`);
       function_response_part.name = functionCall!.name;
