@@ -8,8 +8,7 @@ import { Zone } from '#models';
 
 // Configure the client
 const ai = new GoogleGenAI({
-  apiKey: 'AIzaSyDeR_V9cH07uVsJ_rTbLJq98BedGw4Kn8k'
-  //process.env.GOOGLE_API_KEY
+  apiKey: process.env.GOOGLE_API_KEY
 });
 
 // Define the function declaration for the model
