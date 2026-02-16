@@ -22,7 +22,7 @@ export async function openMeteo(
   // Process first location.
   // a for-loop for multiple locations or weather models
   const response = responses[0] as any;
-  console.log(responses);
+  //console.log(responses);
   const utcOffsetSeconds = response.utcOffsetSeconds();
   const current = response.current()!;
   const daily = response.daily()!;

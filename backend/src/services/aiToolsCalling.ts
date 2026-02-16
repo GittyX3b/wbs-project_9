@@ -18,6 +18,10 @@ const weatherFunctionDeclaration = {
   parameters: {
     type: Type.OBJECT,
     properties: {
+      weather: {
+        type: Type.STRING,
+        description: 'The current weather and the weather for the next six days.'
+      },
       place: {
         type: Type.STRING,
         description: 'The place where the weather forecast is asked for .'
@@ -29,22 +33,23 @@ const weatherFunctionDeclaration = {
       },
       time: {
         type: Type.STRING,
-        description: 'now or specific time for the next six days. Format: YYYY-MM-DD HH:mm'
+        description:
+          'now or specific time for the next six days. Format: HH:MM. If not provided, the current weather will be returned .'
       }
     },
-    required: ['time', 'place']
+    required: ['weather']
   }
 };
 
 const osmFunctionDeclaration = {
   name: 'OsmInfo',
-  description: 'Get OSM data for a place.',
+  description: 'Get Open Street Map data like buildings, Green Areas and Water for a place.',
   parameters: {
     type: Type.OBJECT,
     properties: {
       place: {
         type: Type.STRING,
-        description: 'The place where the OSM data is asked for .'
+        description: 'The place where Open Street Map data is asked for .'
       },
       buildings: {
         type: Type.STRING,
@@ -56,10 +61,9 @@ const osmFunctionDeclaration = {
       },
       water: {
         type: Type.STRING,
-        description: 'How many Water resources are in this area  .'
+        description: 'How much is the Water resources are in this area  .'
       }
-    },
-    required: ['place']
+    }
   }
 };
 
@@ -72,9 +76,13 @@ const elevationFunctionDeclaration = {
       place: {
         type: Type.STRING,
         description: 'The place where the elevation data is asked for .'
+      },
+      elevation: {
+        type: Type.STRING,
+        description: 'The elevation of the place in meters.'
       }
     },
-    required: ['place']
+    required: ['elevation']
   }
 };
 
@@ -100,17 +108,17 @@ export const aiToolsCalling: RequestHandler<any, {}, aiToolsIncomingPrompt> = as
           text: `User Frage: ${req.body.prompt} 
           Zone data aus der Datenbank:${zone ? JSON.stringify(zone.stats) : 'none'}
           Privous KI Text aus der Datenbank::${zone ? zone.aiText : 'none'}
-          Zone Koordinaten aus der Datenbank::${zone ? JSON.stringify(zone.coordinates) : 'none'}
-          Erkläre die Zonendaten. Wenn du mehr Informationen brauchst, Ruf tools.`
+          Zone Koordinaten aus der Datenbank::${zone ? JSON.stringify(zone.coordinates) : 'none'}`
         }
       ]
     }
   ];
+  //Erkläre die Zonendaten. Wenn du mehr Informationen brauchst, Ruf tools.
   contents.unshift({
     role: 'system',
     parts: [
       {
-        text: 'Du bist ein GIS Assistant. verwend erstmal Daten aus der Datenbank. Nur Ruf Tools,wenn die Daten nicht existiert.'
+        text: 'Du bist sehr freudliche KI und du antwortest zu den Fragen des Anwenderes.Wenn die Frage nach Gebaude, Gewässer, Höhe, Grünfläsche oder Wetter dann (Du bist ein GIS Assistant. verwend erstmal Daten aus der Datenbank. Nur Ruf Tools,wenn die Daten nicht existiert.)'
       }
     ]
   });
@@ -119,6 +127,7 @@ export const aiToolsCalling: RequestHandler<any, {}, aiToolsIncomingPrompt> = as
   const response = await ai.models.generateContent({
     model: 'gemini-3-flash-preview',
     //'gemini-2.5-flash-lite-preview-09-2025',
+    //'gemini-2.5-flash',
     contents: contents,
     config: config
   });
@@ -175,6 +184,7 @@ export const aiToolsCalling: RequestHandler<any, {}, aiToolsIncomingPrompt> = as
     // Get the final response from the model
     const final_response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
+      //'gemini-2.5-flash',
       contents: contents,
       config: config
     });
