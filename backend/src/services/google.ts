@@ -8,32 +8,36 @@ const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 export async function generateGoogleAiText(stats: PromptBody): Promise<string> {
   await new Promise(resolve => setTimeout(resolve, 2000));
 
-  const response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash',
-    contents: [
-      {
-        role: 'user',
-        parts: [{ text: prompt() }]
-      },
-      {
-        role: 'user',
-        parts: [{ text: JSON.stringify(stats, null, 2) }]
-      }
-    ],
-    config: {
-      responseMimeType: 'application/json',
-      responseSchema: {
-        type: 'object',
-        properties: {
-          summary: { type: 'string' }
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: [
+        {
+          role: 'user',
+          parts: [{ text: prompt() }]
         },
-        required: ['summary']
+        {
+          role: 'user',
+          parts: [{ text: JSON.stringify(stats, null, 2) }]
+        }
+      ],
+      config: {
+        responseMimeType: 'application/json',
+        responseSchema: {
+          type: 'object',
+          properties: {
+            summary: { type: 'string' }
+          },
+          required: ['summary']
+        }
       }
-    }
-  });
+    });
 
-  const text = response.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text) throw new Error('No content returned from Google GenAI');
+    const text = response.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!text) throw new Error('No content returned from Google GenAI');
 
-  return JSON.parse(text).summary;
+    return JSON.parse(text).summary;
+  } catch (err) {
+    throw new Error('Failed to generate AI text');
+  }
 }
