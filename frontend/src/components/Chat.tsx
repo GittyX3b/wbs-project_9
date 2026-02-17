@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { LuLoader, LuSendToBack } from 'react-icons/lu';
 
 import { useSession } from '@data';
 
@@ -11,17 +12,19 @@ type messagesType = {
 export const Chat = () => {
   const [messages, setMessage] = useState<messagesType[]>([]);
   const [pending, setPending] = useState(false);
-  const { responsedata } = useSession();
+  const { responsedata, locationform } = useSession();
   const { zoneId } = responsedata;
 
   //responsedata.id
   const submitAction = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setPending(true);
-    console.log('zoneId:', zoneId);
 
     const form = e.currentTarget;
     const promptValue = form.prompt.value;
+
+    if (!promptValue) return;
+
+    setPending(true);
 
     // Prompt SOFORT anzeigen
     const newMessage = {
@@ -65,36 +68,58 @@ export const Chat = () => {
   };
 
   return (
-    <>
-      <form className='mb-4 grid gap-4' onSubmit={submitAction}>
-        <input
-          type='text'
-          name='prompt'
-          placeholder={`
-          ${pending ? 'Die KI denkt nach...' : 'Stell noch eine Frage...'}`}
-          className='input input-primary'
-          disabled={pending}
-        />
-      </form>
+    <aside id='chat' className='flex flex-col-reverse'>
+      {/* Input area ========================================== */}
+      <div
+        className={`grid gap-5 px-5 pt-15 pb-10 lg:grid-cols-[1fr_600px] lg:px-20 ${pending ? 'bg-mt-color-13 text-green-600' : locationform.mask === 'address' ? 'bg-mt-color-4' : 'bg-mt-color-20'}`}
+      >
+        <h3>{`${pending ? 'Die Anfrage läuft...' : `Stell noch eine Frage:`}`}</h3>
+        <form className='m-auto w-full' onSubmit={submitAction}>
+          <textarea
+            name='prompt'
+            placeholder='Gib deine Frage ein...'
+            className='input input-primary h-40 w-full p-3'
+            disabled={pending}
+          />
+          <button
+            className={`btn m-auto mt-4 w-full text-white ${pending ? 'bg-mt-color-11 cursor-not-allowed' : 'bg-mt-color-31'}`}
+            disabled={pending}
+          >
+            {pending ? (
+              <>
+                <LuLoader className='animate-spin' />
+                bitte Geduld...
+              </>
+            ) : (
+              <>
+                <LuSendToBack />
+                Senden
+              </>
+            )}
+          </button>
+        </form>
+      </div>
 
+      {/* History and response area =========================== */}
       {messages.map((message) => (
-        <div key={message.id} className='mb-4'>
+        <div
+          key={message.id}
+          className='bg-mt-color-30 m-4 grid gap-10 rounded-2xl px-5 pt-15 pb-10 lg:grid-cols-[1fr_600px] lg:px-20'
+        >
           <div className='chat chat-start'>
             <div
-              className={`chat-bubble chat-bubble-primary ${message.prompt ? 'visible' : 'invisible'}`}
+              className={`chat-bubble chat-bubble-secondary italic ${message.prompt ? 'visible' : 'invisible'}`}
             >
               {message.prompt}
             </div>
           </div>
           <div className='chat chat-end'>
-            <div
-              className={`chat-bubble chat-bubble-accent ${message.response ? 'visible' : 'invisible'}`}
-            >
+            <div className={`chat-bubble ${message.response ? 'visible' : 'invisible'}`}>
               {message.response}
             </div>
           </div>
         </div>
       ))}
-    </>
+    </aside>
   );
 };

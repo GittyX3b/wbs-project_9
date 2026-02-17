@@ -27,12 +27,12 @@ export function validate(inputs: LocationFormInputsType, mask: 'address' | 'coor
     else if (isNaN(Number(latitude)) || latitude < 47.27 || latitude > 55.06)
       // Germany's approximate latitude range
       errors.coordinates.latitude =
-        'Bitte geben Sie eine gültige Latitude zwischen 47.27 und 55.06 ein.';
+        'Bitte geben Sie einen Breitengrad zwischen 47.27 und 55.06 ein.';
     if (longitude === null) errors.coordinates.longitude = 'Longitude darf nicht leer sein.';
     else if (Number.isNaN(longitude) || longitude < 5.87 || longitude > 15.04)
       // Germany's approximate longitude range
       errors.coordinates.longitude =
-        'Bitte geben Sie eine gültige Longitude zwischen 5.87 und 15.04 ein.';
+        'Bitte geben Sie einen Längengrad zwischen 5.87 und 15.04 ein.';
   }
   return errors;
 }
