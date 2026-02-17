@@ -61,6 +61,16 @@ export const Chat = () => {
       );
       console.log('AiTools API response:', data);
     } catch (err) {
+      setMessage((prev) =>
+        prev.map((msg) =>
+          msg.id === newMessage.id
+            ? {
+                ...msg,
+                response: '⚠️ Etwas ist schiefgelaufen. Bitte versuche es in Kürze erneut.',
+              }
+            : msg,
+        ),
+      );
       throw new Error(`API Fetch error:: ${err}`);
     } finally {
       setPending(false);
@@ -71,7 +81,7 @@ export const Chat = () => {
     <aside id='chat' className='flex flex-col-reverse'>
       {/* Input area ========================================== */}
       <div
-        className={`grid gap-5 px-5 pt-15 pb-10 lg:grid-cols-[1fr_600px] lg:px-20 ${pending ? 'bg-mt-color-13 text-green-600' : locationform.mask === 'address' ? 'bg-mt-color-4' : 'bg-mt-color-20'}`}
+        className={`grid gap-5 px-5 pt-15 pb-10 lg:grid-cols-[1fr_450px] lg:px-20 xl:grid-cols-[1fr_600px] ${pending ? 'bg-mt-color-13 text-green-600' : locationform.mask === 'address' ? 'bg-mt-color-4' : 'bg-mt-color-20'}`}
       >
         <h3>{`${pending ? 'Die Anfrage läuft...' : `Stell noch eine Frage:`}`}</h3>
         <form className='m-auto w-full' onSubmit={submitAction}>
@@ -101,25 +111,27 @@ export const Chat = () => {
       </div>
 
       {/* History and response area =========================== */}
-      {messages.map((message) => (
-        <div
-          key={message.id}
-          className='bg-mt-color-30 m-4 grid gap-10 rounded-2xl px-5 pt-15 pb-10 lg:grid-cols-[1fr_600px] lg:px-20'
-        >
-          <div className='chat chat-start'>
-            <div
-              className={`chat-bubble chat-bubble-secondary italic ${message.prompt ? 'visible' : 'invisible'}`}
-            >
-              {message.prompt}
+      <div id='Chat-History'>
+        {messages.map((message) => (
+          <div
+            key={message.id}
+            className='bg-mt-color-30 m-4 grid gap-10 rounded-2xl px-5 pt-15 pb-10 lg:grid-cols-[1fr_450px] lg:px-20 xl:grid-cols-[1fr_600px]'
+          >
+            <div className='chat chat-start'>
+              <div
+                className={`chat-bubble chat-bubble-secondary italic ${message.prompt ? 'visible' : 'invisible'}`}
+              >
+                {message.prompt}
+              </div>
+            </div>
+            <div className='chat chat-end'>
+              <div className={`chat-bubble ${message.response ? 'visible' : 'invisible'}`}>
+                {message.response}
+              </div>
             </div>
           </div>
-          <div className='chat chat-end'>
-            <div className={`chat-bubble ${message.response ? 'visible' : 'invisible'}`}>
-              {message.response}
-            </div>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </aside>
   );
 };
