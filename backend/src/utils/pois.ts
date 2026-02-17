@@ -7,7 +7,8 @@ export function getPois(elements: OsmElement[]): Record<string, GeoFeatureCollec
 
   elements.forEach(el => {
     const tags = el.tags || {};
-    const type = tags.amenity || tags.tourism || tags.highway;
+    const type = tags.shop || tags.amenity || tags.tourism || tags.highway || tags.leisure;
+
     if (!type) return;
 
     let coords: [number, number] | null = null;

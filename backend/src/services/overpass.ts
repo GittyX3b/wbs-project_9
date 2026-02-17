@@ -61,19 +61,41 @@ export function buildBaseLayersQuery(bbox: BBox): string {
           out geom;`;
 }
 
+/* Mapping of POI types to their corresponding OSM tags */
+const poiObject: Record<string, string> = {
+  museum: 'tourism',
+  bus_stop: 'highway',
+  supermarket: 'shop',
+  park: 'leisure',
+  restaurant: 'amenity',
+  cafe: 'amenity',
+  theatre: 'amenity',
+  cinema: 'amenity',
+  kindergarten: 'amenity',
+  school: 'amenity',
+  university: 'amenity',
+  hospital: 'amenity',
+  pharmacy: 'amenity',
+  bank: 'amenity',
+  atm: 'amenity',
+  post_office: 'amenity',
+  library: 'amenity'
+};
+
 /* Build Overpass query for specified POIs based on a bounding box and list of POI types */
 export function buildPoisQuery(bbox: BBox, pois: string[]): string {
-  const querys: string[] = [];
+  const queries: string[] = [];
 
   for (const poi of pois) {
-    const key = poi === 'museum' ? 'tourism' : poi === 'bus_stop' ? 'highway' : 'amenity';
-    querys.push(`nwr["${key}"="${poi}"](${bbox.join(',')});`);
+    const key = poiObject[poi] ?? null;
+    if (!key) continue;
+    queries.push(`nwr["${key}"="${poi}"](${bbox.join(',')});`);
   }
 
   return `
         [out:json][timeout:25];
           (
-            ${querys.join('\n')}
+            ${queries.join('\n')}
           );  
           out geom;`;
 }

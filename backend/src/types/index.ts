@@ -15,7 +15,6 @@ import type {
   poiSchema,
   cacheEntrySchema
 } from '#schemas';
-import e from 'cors';
 
 export type ZoneInputDTO = z.infer<typeof zoneInputSchema>;
 
