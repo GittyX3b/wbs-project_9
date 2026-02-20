@@ -10,7 +10,7 @@ Gib einen geografischen Punkt an und erhalte relevante Informationen zu seiner U
 
 <br>
 
-![maptold-screencast.gif](https://github.com/GittyX3b/wbs-project_9/blob/main/screencast_frontend.gif)
+![maptold-screencast.gif](https://github.com/GittyX3b/wbs-project_9/blob/main/screencast-frontend.gif)
 
 <br>
 <br>
