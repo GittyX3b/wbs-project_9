@@ -1,4 +1,4 @@
-![maptold-icon.png](https://github.com/GittyX3b/wbs-project_9/blob/main/frontend/src/assets/images/maptold-logo.png?raw=true)
+![maptold-icon.png](https://github.com/GittyX3b/wbs-project_9/blob/main/frontend/src/assets/images/maptold-icon.png)
 
 # Map-Told
 
@@ -9,7 +9,8 @@
 Gib einen geografischen Punkt an und erhalte relevante Informationen zu seiner Umgebung, serviert von deiner Standort-KI.
 
 <br>
-![maptold-screencast.gif](https://github.com/GittyX3b/wbs-project_9/blob/main/screencast_frontend.gif?raw=true)
+
+![maptold-screencast.gif](https://github.com/GittyX3b/wbs-project_9/blob/main/screencast_frontend.gif)
 
 <br>
 <br>
